@@ -34,27 +34,30 @@ const INIT_DATA = {
   data: [
     {
       id: 1,
-      text: "我 $1500",
-      start_date: "2020-06-24",
-      duration: 3,
+      holder: "自己",
+      start_date: "2020-01-01",
+      amount: 1500,
+      duration: 30,
       progress: 0.6,
     },
-    // {
-    //   id: 2,
-    //   text: "Task #2",
-    //   start_date: "2020-02-16",
-    //   duration: 3,
-    //   progress: 0.4,
-    // },
+    {
+      id: 2,
+      holder: "投資人 #1",
+      start_date: "2020-01-01",
+      parent: 1,
+      amount: 1500,
+      duration: 30,
+      progress: 0.4,
+    },
   ],
-  // links: [{ id: 1, source: 1, target: 2, type: "0" }],
+  links: [{ id: 1, source: 1, target: 2, type: "0" }],
 };
 class App extends Component {
   state = {
     isReady: false,
     isUpdating: false,
     tasks: null,
-    currentZoom: "日",
+    currentZoom: "月",
     messages: [],
   };
 
@@ -72,8 +75,8 @@ class App extends Component {
   logDataUpdate = (type, action, item, id) => {
     if (this.state.isUpdating === false) {
       this.setState({ isUpdating: true });
-      let text = item && item.text ? ` (${item.text})` : "";
-      let message = `${type} ${action}: ${id} ${text}`;
+      let holder = item && item.holder ? ` (${item.holder})` : "";
+      let message = `${type} ${action}: ${id} ${holder}`;
       if (type === "link" && action !== "delete") {
         message += ` ( source: ${item.source}, target: ${item.target} )`;
       }
@@ -81,10 +84,12 @@ class App extends Component {
       const NEW_DATA = {
         data: gantt.getTaskByTime().map((item) => ({
           id: item.id,
-          text: item.text,
+          holder: item.holder,
+          amount: item.amount ?? 0,
           start_date: new Date(item.start_date).Format("yyyy-MM-dd"),
           duration: item.duration,
-          progress: 0.6,
+          progress: item.progress ?? 0.6,
+          parent: item.parent ?? undefined,
         })),
         links: gantt.getLinks(),
       };

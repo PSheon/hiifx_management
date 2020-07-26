@@ -65,7 +65,86 @@ export default class Gantt extends Component {
   }
 
   componentDidMount() {
+    const holderEditor = { type: "text", map_to: "holder" };
+    const amountEditor = { type: "text", map_to: "amount" };
+    const durationEditor = {
+      type: "number",
+      map_to: "duration",
+      min: 25,
+      max: 50,
+    };
+    const startDateEditor = {
+      type: "date",
+      map_to: "start_date",
+      min: new Date(2018, 0, 1),
+      max: new Date(),
+    };
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
+    gantt.config.columns = [
+      {
+        name: "wbs",
+        label: "編號",
+        align: "center",
+        width: 64,
+        template: gantt.getWBSCode,
+      },
+      {
+        name: "holder",
+        label: "投資人",
+        width: 128,
+        tree: true,
+        resize: true,
+        editor: holderEditor,
+      },
+      {
+        name: "amount",
+        label: "投資額",
+        align: "center",
+        editor: amountEditor,
+      },
+      {
+        name: "start_date",
+        label: "初始託管日",
+        align: "center",
+        width: 96,
+        editor: startDateEditor,
+      },
+      {
+        name: "duration",
+        label: "託管時間",
+        align: "center",
+        width: 60,
+        editor: durationEditor,
+      },
+      { name: "add", width: 40 },
+    ];
+    gantt.config.lightbox.sections = [
+      {
+        name: "holder",
+        height: 30,
+        map_to: "holder",
+        type: "textarea",
+      },
+      {
+        name: "parent",
+        type: "parent",
+        allow_root: "true",
+        root_label: "無推薦經紀人",
+        template: (start, end, ev) =>
+          ev.id === 0 ? "無推薦經紀人" : ev.holder,
+      },
+      { name: "time", height: 64, map_to: "auto", type: "duration" },
+    ];
+    gantt.locale.labels["section_holder"] = "投資人";
+    gantt.locale.labels["section_parent"] = "推薦經紀人";
+    gantt.locale.labels["section_time"] = "託管時間";
+    gantt.locale.labels.icon_save = "儲資金紀錄";
+    gantt.locale.labels.icon_cancel = "取消";
+    gantt.locale.labels.icon_delete = "刪除紀錄";
+
+    gantt.templates.task_text = (start, end, task) =>
+      `<b>${task.holder}</b> > <b>${task.amount}</b> 美金 ${task.duration} 天 `;
+
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);
     this.initGanttDataProcessor();
