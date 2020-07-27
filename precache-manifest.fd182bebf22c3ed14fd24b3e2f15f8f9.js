@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "f6d92e122e572d9cacf4556116f27830",
+    "revision": "cd81545f0f4753dbc2313e33f8297946",
     "url": "/hiifx_management/index.html"
   },
   {
@@ -8,8 +8,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hiifx_management/static/css/2.f090b26d.chunk.css"
   },
   {
-    "revision": "fa29ca5777988b64d6bd",
-    "url": "/hiifx_management/static/css/main.4bf29050.chunk.css"
+    "revision": "3a0b621b19c9e7464fe0",
+    "url": "/hiifx_management/static/css/main.bcb1aada.chunk.css"
   },
   {
     "revision": "7ada863acf899f3a549e",
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hiifx_management/static/js/2.bd816c3d.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "fa29ca5777988b64d6bd",
-    "url": "/hiifx_management/static/js/main.c28bfe44.chunk.js"
+    "revision": "3a0b621b19c9e7464fe0",
+    "url": "/hiifx_management/static/js/main.e29e0192.chunk.js"
   },
   {
     "revision": "10ab028616317d6a2380",
