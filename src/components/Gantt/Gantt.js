@@ -79,51 +79,25 @@ export default class Gantt extends Component {
       min: new Date(2018, 0, 1),
       max: new Date(),
     };
-    gantt.config.layout = {
-      css: "gantt_container",
-      cols: [
-        {
-          width: 300,
-          rows: [
-            {
-              view: "grid",
-              scrollX: "gridScroll",
-              scrollable: true,
-              scrollY: "scrollVer",
-            },
 
-            // horizontal scrollbar for the grid
-            { view: "scrollbar", id: "gridScroll", group: "horizontal" },
-          ],
-        },
-        { resizer: true, width: 1 },
-        {
-          rows: [
-            { view: "timeline", scrollX: "scrollHor", scrollY: "scrollVer" },
-
-            // horizontal scrollbar for the timeline
-            { view: "scrollbar", id: "scrollHor", group: "horizontal" },
-          ],
-        },
-        { view: "scrollbar", id: "scrollVer" },
-      ],
-    };
-
+    gantt.config.work_time = true;
+    gantt.config.reorder_grid_columns = true;
     gantt.config.order_branch = true;
+    gantt.config.keep_grid_width = true;
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     gantt.config.columns = [
       {
         name: "wbs",
         label: "編號",
         align: "center",
-        width: 40,
+        max_width: 64,
+        resize: true,
         template: gantt.getWBSCode,
       },
       {
         name: "holder",
         label: "投資人",
-        min_width: 256,
-        max_width: 360,
+        min_width: 180,
         tree: true,
         resize: true,
         editor: holderEditor,
@@ -132,20 +106,23 @@ export default class Gantt extends Component {
         name: "amount",
         label: "投資額",
         align: "center",
+        resize: true,
         editor: amountEditor,
       },
       {
         name: "start_date",
         label: "初始託管日",
         align: "center",
-        width: 96,
+        min_width: 96,
+        resize: true,
         editor: startDateEditor,
       },
       {
         name: "duration",
         label: "託管時間",
         align: "center",
-        width: 60,
+        min_width: 64,
+        resize: true,
         editor: durationEditor,
       },
       { name: "add", width: 40 },
@@ -179,7 +156,17 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels.icon_save = "儲資金紀錄";
     gantt.locale.labels.icon_cancel = "取消";
-    gantt.locale.labels.icon_delete = "刪除紀錄";
+
+    gantt.templates.scale_cell_class = function (date) {
+      if (!gantt.isWorkTime(date)) {
+        return "weekend";
+      }
+    };
+    gantt.templates.timeline_cell_class = function (task, date) {
+      if (!gantt.isWorkTime({ task: task, date: date })) {
+        return "weekend";
+      }
+    };
 
     gantt.templates.task_text = (start, end, task) =>
       `<b>${task.holder}</b> > <b>${task.amount}</b> 美金 ${task.duration} 天 `;

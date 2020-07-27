@@ -2,6 +2,10 @@
   height: calc(100vh - 50px - 150px);
 }
 
+.weekend {
+  background: #f4f7f4 !important;
+}
+
 @media screen and (max-width: 800px) and (orientation: landscape) {
   .gantt-container {
     height: calc(100vh - 50px);
