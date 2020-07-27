@@ -4,6 +4,8 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
+import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 
 export default class Gantt extends Component {
@@ -83,8 +85,15 @@ export default class Gantt extends Component {
       min: new Date(2018, 0, 1),
       max: new Date(),
     };
+    const dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+    gantt.addMarker({
+      start_date: new Date(),
+      css: "today",
+      text: "今天",
+      title: dateToStr(new Date()),
+    });
 
-    gantt.config.work_time = true;
+    gantt.config.quickinfo_buttons = ["icon_edit", "icon_delete"];
     gantt.config.reorder_grid_columns = true;
     gantt.config.order_branch = true;
     gantt.config.keep_grid_width = true;
@@ -101,7 +110,8 @@ export default class Gantt extends Component {
       {
         name: "holder",
         label: "投資人",
-        max_width: 180,
+        min_width: 150,
+        max_width: 200,
         tree: true,
         resize: true,
         editor: holderEditor,
@@ -110,6 +120,7 @@ export default class Gantt extends Component {
         name: "amount",
         label: "投資額",
         align: "center",
+        min_width: 40,
         resize: true,
         editor: amountEditor,
       },
@@ -158,17 +169,29 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_amount"] = "投資額";
     gantt.locale.labels["section_parent"] = "推薦經紀人";
     gantt.locale.labels["section_time"] = "託管時間";
+    gantt.locale.labels["icon_delete"] = "刪除紀錄";
+    gantt.locale.labels["icon_edit"] = "編輯紀錄";
     gantt.locale.labels.icon_save = "儲資金紀錄";
     gantt.locale.labels.icon_cancel = "取消";
 
-    const dateToStr = gantt.date.date_to_str(gantt.config.task_date);
-    gantt.addMarker({
-      start_date: new Date(), //a Date object that sets the marker's date
-      css: "today", //a CSS class applied to the marker
-      text: "今天", //the marker title
-      title: dateToStr(new Date()), // the marker's tooltip
+    gantt.attachEvent("onLightboxSave", function (id, item) {
+      if (!item.holder) {
+        gantt.message({ type: "error", text: "請輸入投資人" });
+        return false;
+      }
+      if (!item.amount) {
+        gantt.message({
+          type: "error",
+          text: "請輸入投資額",
+        });
+        return false;
+      }
+      return true;
     });
 
+    gantt.templates.quick_info_title = (start, end, task) => task.holder;
+    gantt.templates.quick_info_content = (start, end, task) =>
+      `${task.holder} ${task.amount}`;
     gantt.templates.scale_cell_class = function (date) {
       if (!gantt.isWorkTime(date)) {
         return "weekend";
@@ -179,9 +202,17 @@ export default class Gantt extends Component {
         return "weekend";
       }
     };
-
     gantt.templates.task_text = (start, end, task) =>
       `<b>${task.holder}</b> > <b>${task.amount}</b> 美金 ${task.duration} 天 `;
+    gantt.templates.leftside_text = function (start, end, task) {
+      const entrustInDate =
+        (new Date().getTime() - new Date(start).getTime()) / (1000 * 3600 * 24);
+      if (entrustInDate > 0) {
+        return "<b>託管: </b>" + Math.floor(entrustInDate) + "天";
+      } else {
+        return "<b>尚未開始託管</b>";
+      }
+    };
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);
@@ -204,7 +235,6 @@ export default class Gantt extends Component {
         ref={(input) => {
           this.ganttContainer = input;
         }}
-        onTouchStart={() => gantt.ext.fullscreen.expand()}
         style={{ width: "100%", height: "100%" }}
       ></div>
     );

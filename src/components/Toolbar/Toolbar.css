@@ -6,7 +6,27 @@
   padding: 5px 10px;
 }
 
-.tool-bar {
+.action-icon-wrapper {
+  padding: 0 0.8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.action-icon-wrapper svg {
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+  cursor: pointer;
+}
+.fullscreen-icon-wrapper {
+  padding: 0 1.2rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.tool-bar,
+.tool-wrapper {
   display: flex;
   justify-content: space-between;
 }

@@ -6,7 +6,18 @@
   background: #f4f7f4 !important;
 }
 
-@media screen and (max-width: 800px) and (orientation: landscape) {
+.gantt_time_selects {
+  display: flex;
+  justify-content: center;
+}
+
+.gantt_tree_content {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 800px) and (orientation: landscape),
+  screen and (max-height: 500px) {
   .gantt-container {
     height: calc(100vh - 50px);
   }

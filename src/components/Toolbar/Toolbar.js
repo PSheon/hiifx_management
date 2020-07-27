@@ -1,10 +1,16 @@
 import React from "react";
+import { gantt } from "dhtmlx-gantt";
+import { SkipBack, SkipForward, Maximize } from "react-feather";
 
 const Toolbar = ({ onZoomChange, zoom }) => {
   const handleZoomChange = (e) => {
     if (onZoomChange) {
       onZoomChange(e.target.value);
     }
+  };
+
+  const handleFullscreen = () => {
+    gantt.ext.fullscreen.expand();
   };
 
   const zoomRadios = ["日", "月"].map((value) => {
@@ -30,7 +36,16 @@ const Toolbar = ({ onZoomChange, zoom }) => {
       <div>
         <b>海匯團隊資金管理工具</b>
       </div>
-      <div>{zoomRadios}</div>
+      <div className="tool-wrapper">
+        <div className="action-icon-wrapper">
+          <SkipBack onClick={() => gantt.undo()} />
+          <SkipForward onClick={() => gantt.redo()} />
+        </div>
+        <div>{zoomRadios}</div>
+        <div className="fullscreen-icon-wrapper" onClick={handleFullscreen}>
+          <Maximize />
+        </div>
+      </div>
     </div>
   );
 };

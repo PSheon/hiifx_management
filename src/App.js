@@ -88,7 +88,7 @@ class App extends Component {
           holder: item.holder,
           amount: item.amount ?? 0,
           start_date: new Date(item.start_date).Format("yyyy-MM-dd"),
-          duration: item.duration,
+          duration: item.duration ?? 35,
           progress: item.progress ?? 0.6,
           parent: item.parent ?? undefined,
           $open: true,
