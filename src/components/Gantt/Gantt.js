@@ -1,5 +1,9 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 
 export default class Gantt extends Component {
@@ -97,7 +101,7 @@ export default class Gantt extends Component {
       {
         name: "holder",
         label: "投資人",
-        min_width: 180,
+        max_width: 180,
         tree: true,
         resize: true,
         editor: holderEditor,
@@ -113,7 +117,7 @@ export default class Gantt extends Component {
         name: "start_date",
         label: "初始託管日",
         align: "center",
-        min_width: 96,
+        max_width: 96,
         resize: true,
         editor: startDateEditor,
       },
@@ -121,7 +125,7 @@ export default class Gantt extends Component {
         name: "duration",
         label: "託管時間",
         align: "center",
-        min_width: 64,
+        max_width: 64,
         resize: true,
         editor: durationEditor,
       },
@@ -156,6 +160,14 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels.icon_save = "儲資金紀錄";
     gantt.locale.labels.icon_cancel = "取消";
+
+    const dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+    gantt.addMarker({
+      start_date: new Date(), //a Date object that sets the marker's date
+      css: "today", //a CSS class applied to the marker
+      text: "今天", //the marker title
+      title: dateToStr(new Date()), // the marker's tooltip
+    });
 
     gantt.templates.scale_cell_class = function (date) {
       if (!gantt.isWorkTime(date)) {
@@ -192,6 +204,7 @@ export default class Gantt extends Component {
         ref={(input) => {
           this.ganttContainer = input;
         }}
+        onTouchStart={() => gantt.ext.fullscreen.expand()}
         style={{ width: "100%", height: "100%" }}
       ></div>
     );

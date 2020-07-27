@@ -30,10 +30,7 @@ const Toolbar = ({ onZoomChange, zoom }) => {
       <div>
         <b>海匯團隊資金管理工具</b>
       </div>
-      <div>
-        <b>縮放維度：</b>
-        {zoomRadios}
-      </div>
+      <div>{zoomRadios}</div>
     </div>
   );
 };
