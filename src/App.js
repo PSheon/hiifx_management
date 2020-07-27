@@ -1,6 +1,6 @@
 import React, { Component } from "react";
-import Gantt from "./components/Gantt";
 import { gantt } from "dhtmlx-gantt";
+import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import MessageArea from "./components/MessageArea";
 import "./App.css";
@@ -39,6 +39,7 @@ const INIT_DATA = {
       amount: 1500,
       duration: 30,
       progress: 0.6,
+      $open: true,
     },
     {
       id: 2,
@@ -90,6 +91,7 @@ class App extends Component {
           duration: item.duration,
           progress: item.progress ?? 0.6,
           parent: item.parent ?? undefined,
+          $open: true,
         })),
         links: gantt.getLinks(),
       };
@@ -125,7 +127,7 @@ class App extends Component {
         </div>
         <div className="gantt-container">
           {isReady && (
-            <Gantt
+            <GanttChart
               tasks={tasks}
               zoom={currentZoom}
               onDataUpdated={this.logDataUpdate}

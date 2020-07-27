@@ -79,19 +79,51 @@ export default class Gantt extends Component {
       min: new Date(2018, 0, 1),
       max: new Date(),
     };
+    gantt.config.layout = {
+      css: "gantt_container",
+      cols: [
+        {
+          width: 300,
+          rows: [
+            {
+              view: "grid",
+              scrollX: "gridScroll",
+              scrollable: true,
+              scrollY: "scrollVer",
+            },
+
+            // horizontal scrollbar for the grid
+            { view: "scrollbar", id: "gridScroll", group: "horizontal" },
+          ],
+        },
+        { resizer: true, width: 1 },
+        {
+          rows: [
+            { view: "timeline", scrollX: "scrollHor", scrollY: "scrollVer" },
+
+            // horizontal scrollbar for the timeline
+            { view: "scrollbar", id: "scrollHor", group: "horizontal" },
+          ],
+        },
+        { view: "scrollbar", id: "scrollVer" },
+      ],
+    };
+
+    gantt.config.order_branch = true;
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     gantt.config.columns = [
       {
         name: "wbs",
         label: "編號",
         align: "center",
-        width: 64,
+        width: 40,
         template: gantt.getWBSCode,
       },
       {
         name: "holder",
         label: "投資人",
-        width: 128,
+        min_width: 256,
+        max_width: 360,
         tree: true,
         resize: true,
         editor: holderEditor,
@@ -126,6 +158,12 @@ export default class Gantt extends Component {
         type: "textarea",
       },
       {
+        name: "amount",
+        height: 30,
+        map_to: "amount",
+        type: "textarea",
+      },
+      {
         name: "parent",
         type: "parent",
         allow_root: "true",
@@ -133,9 +171,10 @@ export default class Gantt extends Component {
         template: (start, end, ev) =>
           ev.id === 0 ? "無推薦經紀人" : ev.holder,
       },
-      { name: "time", height: 64, map_to: "auto", type: "duration" },
+      { name: "time", map_to: "auto", type: "duration" },
     ];
     gantt.locale.labels["section_holder"] = "投資人";
+    gantt.locale.labels["section_amount"] = "投資額";
     gantt.locale.labels["section_parent"] = "推薦經紀人";
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels.icon_save = "儲資金紀錄";
