@@ -5,7 +5,7 @@
   "background_color": "#f7fafc",
   "display": "fullscreen",
   "Scope": "/hiifx_management",
-  "start_url": "/hiifx_management",
+  "start_url": ".",
   "icons": [
     {
       "src": "icons/icon-72x72.png",
