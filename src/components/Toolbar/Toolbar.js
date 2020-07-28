@@ -11,6 +11,14 @@ const Toolbar = ({ onZoomChange, zoom }) => {
 
   const handleFullscreen = () => {
     gantt.ext.fullscreen.expand();
+
+    gantt.getGridColumn("wbs").hide = true;
+    gantt.getGridColumn("duration").hide = true;
+    gantt.getGridColumn("start_date").hide = true;
+
+    gantt.config.grid_width = 150;
+
+    gantt.render();
   };
 
   const zoomRadios = ["日", "月"].map((value) => {
@@ -41,10 +49,10 @@ const Toolbar = ({ onZoomChange, zoom }) => {
           <SkipBack onClick={() => gantt.undo()} />
           <SkipForward onClick={() => gantt.redo()} />
         </div>
-        <div>{zoomRadios}</div>
         <div className="fullscreen-icon-wrapper" onClick={handleFullscreen}>
           <Maximize />
         </div>
+        <div>{zoomRadios}</div>
       </div>
     </div>
   );

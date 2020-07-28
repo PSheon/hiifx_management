@@ -18,7 +18,7 @@
   cursor: pointer;
 }
 .fullscreen-icon-wrapper {
-  padding: 0 1.2rem;
+  padding-right: 0.8rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -29,6 +29,7 @@
 .tool-wrapper {
   display: flex;
   justify-content: space-between;
+  height: 40px;
 }
 
 .radio-label {
