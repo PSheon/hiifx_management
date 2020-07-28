@@ -101,12 +101,6 @@ class App extends Component {
     }
   };
 
-  handleZoomChange = (zoom) => {
-    this.setState({
-      currentZoom: zoom,
-    });
-  };
-
   componentDidMount() {
     const LOCAL_DATA = localStorage.getItem("hiifx_data");
     if (!!LOCAL_DATA) {
@@ -123,7 +117,7 @@ class App extends Component {
     return (
       <div>
         <div className="zoom-bar">
-          <Toolbar zoom={currentZoom} onZoomChange={this.handleZoomChange} />
+          <Toolbar />
         </div>
         <div className="gantt-container">
           {isReady && (

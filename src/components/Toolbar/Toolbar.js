@@ -1,14 +1,14 @@
 import React from "react";
 import { gantt } from "dhtmlx-gantt";
-import { SkipBack, SkipForward, Maximize } from "react-feather";
+import {
+  SkipBack,
+  SkipForward,
+  Maximize,
+  ZoomIn,
+  ZoomOut,
+} from "react-feather";
 
-const Toolbar = ({ onZoomChange, zoom }) => {
-  const handleZoomChange = (e) => {
-    if (onZoomChange) {
-      onZoomChange(e.target.value);
-    }
-  };
-
+const Toolbar = () => {
   const handleFullscreen = () => {
     gantt.ext.fullscreen.expand();
 
@@ -21,24 +21,6 @@ const Toolbar = ({ onZoomChange, zoom }) => {
     gantt.render();
   };
 
-  const zoomRadios = ["日", "月"].map((value) => {
-    const isActive = zoom === value;
-    return (
-      <label
-        key={value}
-        className={`radio-label ${isActive ? "radio-label-active" : ""}`}
-      >
-        <input
-          type="radio"
-          checked={isActive}
-          onChange={handleZoomChange}
-          value={value}
-        />
-        {value}
-      </label>
-    );
-  });
-
   return (
     <div className="tool-bar">
       <div>
@@ -49,10 +31,13 @@ const Toolbar = ({ onZoomChange, zoom }) => {
           <SkipBack onClick={() => gantt.undo()} />
           <SkipForward onClick={() => gantt.redo()} />
         </div>
+        <div className="zoom-icon-wrapper">
+          <ZoomIn onClick={() => gantt.ext.zoom.zoomIn()} />
+          <ZoomOut onClick={() => gantt.ext.zoom.zoomOut()} />
+        </div>
         <div className="fullscreen-icon-wrapper" onClick={handleFullscreen}>
           <Maximize />
         </div>
-        <div>{zoomRadios}</div>
       </div>
     </div>
   );

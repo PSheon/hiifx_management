@@ -8,6 +8,8 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
 import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 
+import * as utils from "../../utils";
+
 export default class Gantt extends Component {
   constructor(props) {
     super(props);
@@ -17,26 +19,94 @@ export default class Gantt extends Component {
   // instance of gantt.dataProcessor
   dataProcessor = null;
 
+  // findAllChildren(uid, results, depth) {
+  //   let childSet = new Set(gantt.getChildren(uid));
+  //   console.log("childSet, ", childSet);
+  // }
+  // getAllLayerAmount(uid) {
+  //   let children = [];
+  //   this.findAllChildren(uid, children, 0);
+  // }
+  // getFirstLayerAmount(uid) {
+  //   const childrenID = gantt.getChildren(uid);
+  //   let total = 0;
+  //   childrenID.forEach((childID) => {
+  //     const userInfo = gantt.getTask(childID);
+  //     total += Number(userInfo.amount ?? 0);
+  //   });
+
+  //   return total;
+  // }
+
   initZoom() {
     gantt.ext.zoom.init({
       levels: [
         {
           name: "日",
-          scale_height: 60,
-          min_column_width: 70,
+          scale_height: 27,
+          min_column_width: 80,
+          scales: [{ unit: "day", step: 1, format: "%d %M" }],
+        },
+        {
+          name: "週",
+          scale_height: 50,
+          min_column_width: 50,
           scales: [
-            { unit: "week", step: 1, format: "Week #%W" },
-            { unit: "day", step: 1, format: "%d %M" },
+            {
+              unit: "week",
+              step: 1,
+              format: function (date) {
+                var dateToStr = gantt.date.date_to_str("%d %M");
+                var endDate = gantt.date.add(date, -6, "day");
+                var weekNum = gantt.date.date_to_str("%W")(date);
+                return (
+                  "#" +
+                  weekNum +
+                  ", " +
+                  dateToStr(date) +
+                  " - " +
+                  dateToStr(endDate)
+                );
+              },
+            },
+            { unit: "day", step: 1, format: "%j %D" },
           ],
         },
         {
           name: "月",
-          scale_height: 60,
-          min_column_width: 70,
+          scale_height: 50,
+          min_column_width: 120,
           scales: [
-            { unit: "month", step: 1, format: "%F" },
-            { unit: "week", step: 1, format: "#%W" },
+            { unit: "month", format: "%F, %Y" },
+            { unit: "week", format: "Week #%W" },
           ],
+        },
+        {
+          name: "季",
+          height: 50,
+          min_column_width: 90,
+          scales: [
+            { unit: "month", step: 1, format: "%M" },
+            {
+              unit: "quarter",
+              step: 1,
+              format: function (date) {
+                var dateToStr = gantt.date.date_to_str("%M");
+                var endDate = gantt.date.add(
+                  gantt.date.add(date, 3, "month"),
+                  -1,
+                  "day"
+                );
+                return dateToStr(date) + " - " + dateToStr(endDate);
+              },
+            },
+          ],
+        },
+        {
+          name: "年",
+          scale_height: 50,
+          min_column_width: 30,
+          scales: [{ unit: "year", step: 1, format: "%Y" }],
         },
       ],
     });
@@ -76,7 +146,7 @@ export default class Gantt extends Component {
     const durationEditor = {
       type: "number",
       map_to: "duration",
-      min: 25,
+      min: 0,
       max: 50,
     };
     const startDateEditor = {
@@ -189,30 +259,49 @@ export default class Gantt extends Component {
       return true;
     });
 
+    gantt.templates.task_class = function (start, end, task) {
+      const currentLayer = (gantt.getWBSCode(task).match(/\./g) || []).length;
+      const LAYER_TABLE = {
+        0: "top-layer",
+        1: "first-layer",
+        2: "second-layer",
+        3: "third-layer",
+      };
+      return LAYER_TABLE[currentLayer];
+    };
     gantt.templates.quick_info_title = (start, end, task) => task.holder;
     gantt.templates.quick_info_content = (start, end, task) =>
-      `${task.holder} ${task.amount}`;
-    gantt.templates.scale_cell_class = function (date) {
+      `自身綁定： ${task.amount} </br>
+      有效直推：${gantt.getChildren(task.id).length} </br>
+      直推綁定： ${utils.getFirstLayerAmount(task.id)} </br>
+      團隊人數： ${utils.getAllLayerAmount(task.id)} </br>
+      團隊綁定： ${utils.getAllLayerAmount(task.id)} </br>
+      `;
+    gantt.templates.scale_cell_class = (date) => {
       if (!gantt.isWorkTime(date)) {
         return "weekend";
       }
     };
-    gantt.templates.timeline_cell_class = function (task, date) {
+    gantt.templates.timeline_cell_class = (task, date) => {
       if (!gantt.isWorkTime({ task: task, date: date })) {
         return "weekend";
       }
     };
     gantt.templates.task_text = (start, end, task) =>
-      `<b>${task.holder}</b> > <b>${task.amount}</b> 美金 ${task.duration} 天 `;
-    gantt.templates.leftside_text = function (start, end, task) {
+      `<b>${task.holder}</b> > <b>${task.amount}</b> 美金`;
+    gantt.templates.rightside_text = (start, end, task) => {
       const entrustInDate =
         (new Date().getTime() - new Date(start).getTime()) / (1000 * 3600 * 24);
       if (entrustInDate > 0) {
-        return "<b>託管: </b>" + Math.floor(entrustInDate) + "天";
+        return "<b>託管 </b>" + Math.floor(entrustInDate) + "天";
       } else {
         return "<b>尚未開始託管</b>";
       }
     };
+    gantt.templates.progress_text = (start, end, task) =>
+      "<span class='progress_text'>" +
+      gantt.getChildren(task.id).length +
+      " 直推 </span>";
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);

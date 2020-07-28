@@ -6,19 +6,20 @@
   padding: 5px 10px;
 }
 
-.action-icon-wrapper {
-  padding: 0 0.8rem;
+.action-icon-wrapper,
+.zoom-icon-wrapper {
+  padding: 0 0.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
 }
-.action-icon-wrapper svg {
-  padding-left: 0.4rem;
-  padding-right: 0.4rem;
+.action-icon-wrapper svg,
+.zoom-icon-wrapper svg {
+  padding: 0 0.4rem;
   cursor: pointer;
 }
 .fullscreen-icon-wrapper {
-  padding-right: 0.8rem;
+  padding: 0 0.4rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,33 +31,4 @@
   display: flex;
   justify-content: space-between;
   height: 40px;
-}
-
-.radio-label {
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  height: 30px;
-  line-height: 28px;
-  margin-left: 6px;
-  text-align: center;
-  width: 70px;
-
-  border: 1px solid #38b2ac;
-  border-radius: 2px;
-  background: #38b2ac;
-  color: #fefefe;
-}
-
-.radio-label > input[type="radio"] {
-  height: 0;
-  margin: 0;
-  visibility: hidden;
-  width: 0;
-}
-
-.radio-label-active {
-  background: transparent;
-  color: #4a5568;
-  border-color: #38b2ac;
 }
