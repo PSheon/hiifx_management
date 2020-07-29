@@ -4,7 +4,7 @@
   "theme_color": "#38b2ac",
   "background_color": "#f7fafc",
   "display": "fullscreen",
-  "Scope": "/hiifx_management",
+  "Scope": "/hiifx_management/",
   "start_url": ".",
   "icons": [
     {
