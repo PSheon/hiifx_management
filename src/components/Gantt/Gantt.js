@@ -19,25 +19,6 @@ export default class Gantt extends Component {
   // instance of gantt.dataProcessor
   dataProcessor = null;
 
-  // findAllChildren(uid, results, depth) {
-  //   let childSet = new Set(gantt.getChildren(uid));
-  //   console.log("childSet, ", childSet);
-  // }
-  // getAllLayerAmount(uid) {
-  //   let children = [];
-  //   this.findAllChildren(uid, children, 0);
-  // }
-  // getFirstLayerAmount(uid) {
-  //   const childrenID = gantt.getChildren(uid);
-  //   let total = 0;
-  //   childrenID.forEach((childID) => {
-  //     const userInfo = gantt.getTask(childID);
-  //     total += Number(userInfo.amount ?? 0);
-  //   });
-
-  //   return total;
-  // }
-
   initZoom() {
     gantt.ext.zoom.init({
       levels: [
@@ -241,6 +222,7 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels["icon_delete"] = "刪除紀錄";
     gantt.locale.labels["icon_edit"] = "編輯紀錄";
+    gantt.locale.labels["confirm_link_deleting"] = "將被刪除";
     gantt.locale.labels.icon_save = "儲資金紀錄";
     gantt.locale.labels.icon_cancel = "取消";
 
@@ -274,16 +256,16 @@ export default class Gantt extends Component {
       `自身綁定： ${task.amount} </br>
       有效直推：${gantt.getChildren(task.id).length} </br>
       直推綁定： ${utils.getFirstLayerAmount(task.id)} </br>
-      團隊人數： ${utils.getAllLayerAmount(task.id)} </br>
-      團隊綁定： ${utils.getAllLayerAmount(task.id)} </br>
+      團隊人數： ${utils.getAllLayerAmount(task.id)["teamMembers"]} </br>
+      團隊綁定： ${utils.getAllLayerAmount(task.id)["teamAmount"]} </br>
       `;
     gantt.templates.scale_cell_class = (date) => {
-      if (!gantt.isWorkTime(date)) {
+      if (date.getDay() === 0 || date.getDay() === 6) {
         return "weekend";
       }
     };
     gantt.templates.timeline_cell_class = (task, date) => {
-      if (!gantt.isWorkTime({ task: task, date: date })) {
+      if (date.getDay() === 0 || date.getDay() === 6) {
         return "weekend";
       }
     };
@@ -302,6 +284,14 @@ export default class Gantt extends Component {
       "<span class='progress_text'>" +
       gantt.getChildren(task.id).length +
       " 直推 </span>";
+    gantt.templates.link_class = (link) => {
+      const LINK_TABLE = {
+        1: "first-link",
+        2: "second-link",
+        3: "third-link",
+      };
+      return LINK_TABLE[link.source] ?? "";
+    };
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);

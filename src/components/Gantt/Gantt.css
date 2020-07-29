@@ -26,6 +26,56 @@
   font-weight: bold;
 }
 
+/* Gantt Layer Color */
+.gantt_task_line.top-layer {
+  border: 2px solid #34c461;
+  color: #34c461;
+  background: #34c461;
+}
+.top-layer .gantt_task_progress {
+  background: #23964d;
+}
+.gantt_task_line.first-layer {
+  border: 2px solid #ffa500;
+  background: #ffa500;
+}
+.first-layer .gantt_task_progress {
+  background: #d88f1c;
+}
+.gantt_task_line.second-layer {
+  /* border: 2px solid #d96c49;
+  color: #d96c49;
+  background: #d96c49; */
+  border: 2px solid #6ba8e3;
+  color: #6ba8e3;
+  background: #6ba8e3;
+}
+.second-layer .gantt_task_progress {
+  /* background: #db2536; */
+  background: #547dab;
+}
+
+/* Gantt Link Color */
+.first-link .gantt_line_wrapper div {
+  background: #35c461;
+}
+.first-link .gantt_link_arrow_right {
+  border-left-color: #35c461;
+}
+.second-link .gantt_line_wrapper div {
+  background: #ffa500;
+}
+.second-link .gantt_link_arrow_right {
+  border-left-color: #ffa500;
+}
+.third-link .gantt_line_wrapper div {
+  background: #6ba8e3;
+}
+.third-link .gantt_link_arrow_right {
+  border-left-color: #6ba8e3;
+}
+
+/* Grid Area Tree Icon */
 .gantt_tree_icon.gantt_folder_open,
 .gantt_tree_icon.gantt_folder_closed,
 .gantt_tree_icon.gantt_file {

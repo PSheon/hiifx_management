@@ -1,13 +1,27 @@
 import { gantt } from "dhtmlx-gantt";
 
-export const findAllChildren = (uid, results, depth) => {
-  let childSet = new Set(gantt.getChildren(uid));
-  console.log("childSet, ", childSet);
-};
-
 export const getAllLayerAmount = (uid) => {
   let children = [];
-  findAllChildren(uid, children, 0);
+  let childrenAmount = [];
+
+  const findAllChildren = (uid) => {
+    gantt.getChildren(uid).forEach((item) => {
+      const userInfo = gantt.getTask(item);
+      children.push(userInfo["holder"]);
+      childrenAmount.push(userInfo["amount"]);
+      findAllChildren(item);
+    });
+  };
+
+  findAllChildren(uid);
+
+  return {
+    teamMembers: children.length,
+    teamAmount: childrenAmount.reduce(
+      (accumulator, currentValue) => accumulator + Number(currentValue),
+      0
+    ),
+  };
 };
 
 export const getFirstLayerAmount = (uid) => {
