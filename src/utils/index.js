@@ -41,6 +41,41 @@ export const getSelfLevel = (uid) => {
   return "trader";
 };
 
+export const sterilizateData = (unsafeData) => {
+  const sterilizatedData = {
+    data: unsafeData?.data.map((item) => ({
+      amount: item?.amount,
+      directMember: item?.directMember,
+      directMemberAmount: item?.directMemberAmount,
+      duration: item?.duration,
+      end_date: item?.end_date,
+      holder: item?.holder,
+      id: item?.id,
+      level: item?.level,
+      parent: item?.parent,
+      progress: item?.progress,
+      start_date: item?.start_date,
+      teamAmount: item?.teamAmount,
+      teamMember: item?.teamMember,
+    })),
+    links: unsafeData?.links.map((item) => ({
+      id: item.id,
+      source: item.source,
+      target: item.target,
+      type: item.type,
+    })),
+  };
+
+  return sterilizatedData;
+};
+
+export const getSelfProgress = (start_date) => {
+  const entrustInDate =
+    (new Date().getTime() - new Date(start_date).getTime()) /
+    (1000 * 3600 * 24);
+  return Math.floor((entrustInDate / 35) * 100) / 100;
+};
+
 export const holderEditor = { type: "text", map_to: "holder" };
 export const amountEditor = { type: "text", map_to: "amount" };
 export const durationEditor = {

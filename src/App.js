@@ -62,19 +62,19 @@ class App extends Component {
       }
       this.addMessage(message);
       const NEW_DATA = {
-        data: gantt.getTaskByTime().map((item) => ({
-          id: item.id,
-          holder: item.holder,
-          amount: item.amount ?? 0,
-          directMember: gantt.getChildren(item.id).length ?? 0,
-          directMemberAmount: utils.getFirstLayerAmount(item.id) ?? 0,
-          teamMember: utils.getAllLayerAmount(item.id)["teamMember"],
-          teamAmount: utils.getAllLayerAmount(item.id)["teamAmount"],
-          level: utils.getSelfLevel(item.id),
-          start_date: new Date(item.start_date).Format("yyyy-MM-dd"),
-          duration: item.duration ?? 35,
-          progress: item.progress ?? 0.6,
-          parent: item.parent ?? undefined,
+        data: gantt.getTaskByTime().map((newItem) => ({
+          id: newItem.id,
+          holder: newItem.holder,
+          amount: newItem.amount ?? 0,
+          directMember: gantt.getChildren(newItem.id).length ?? 0,
+          directMemberAmount: utils.getFirstLayerAmount(newItem.id) ?? 0,
+          teamMember: utils.getAllLayerAmount(newItem.id)["teamMember"],
+          teamAmount: utils.getAllLayerAmount(newItem.id)["teamAmount"],
+          level: utils.getSelfLevel(newItem.id),
+          start_date: new Date(newItem.start_date).Format("yyyy-MM-dd"),
+          duration: 35,
+          progress: utils.getSelfProgress(newItem.start_date) ?? 0.6,
+          parent: newItem.parent ?? undefined,
           $open: true,
         })),
         links: gantt.getLinks(),

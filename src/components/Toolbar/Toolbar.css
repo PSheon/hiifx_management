@@ -6,6 +6,23 @@
   padding: 5px 10px;
 }
 
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.data-import-label {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
 .action-icon-wrapper,
 .zoom-icon-wrapper {
   padding: 0 0.4rem;
@@ -18,7 +35,8 @@
   padding: 0 0.4rem;
   cursor: pointer;
 }
-.fullscreen-icon-wrapper {
+.fullscreen-icon-wrapper,
+.export-icon-wrapper {
   padding: 0 0.4rem;
   display: flex;
   justify-content: center;
@@ -31,4 +49,21 @@
   display: flex;
   justify-content: space-between;
   height: 40px;
+}
+
+/* LOGO */
+.short-LOGO {
+  display: none;
+}
+.full-LOGO {
+  display: block;
+}
+
+@media screen and (max-width: 400px) and (orientation: portrait) {
+  .short-LOGO {
+    display: block;
+  }
+  .full-LOGO {
+    display: none;
+  }
 }

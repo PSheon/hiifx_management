@@ -5,6 +5,8 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect.js";
 import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 
@@ -60,6 +62,8 @@ export default class Gantt extends Component {
       title: utils.dateToStr(new Date()),
     });
 
+    gantt.config.keyboard_navigation_cells = true;
+    gantt.config.multiselect = true;
     gantt.config.quickinfo_buttons = ["icon_edit", "icon_delete"];
     gantt.config.reorder_grid_columns = true;
     gantt.config.order_branch = true;
@@ -159,9 +163,10 @@ export default class Gantt extends Component {
       };
       return LAYER_TABLE[currentLayer];
     };
-    gantt.templates.quick_info_title = (start, end, task) => task.holder;
+    gantt.templates.quick_info_title = (start, end, task) =>
+      `${task.holder} 綁定 ${task.amount} 美金`;
     gantt.templates.quick_info_content = (start, end, task) =>
-      `階級： 尚未完成 </br>
+      `身份： 尚未完成 </br>
       自身綁定： ${task.amount} </br>
       有效直推：${task["directMember"]} </br>
       直推綁定： ${task["directMemberAmount"]} </br>
@@ -179,7 +184,7 @@ export default class Gantt extends Component {
       }
     };
     gantt.templates.task_text = (start, end, task) =>
-      `<b>${task.holder}</b> > <b>${task.amount}</b> 美金`;
+      `<b>${task.holder}</b> 綁定 <b>${task.amount}</b> 美金`;
     gantt.templates.rightside_text = (start, end, task) => {
       const entrustInDate =
         (new Date().getTime() - new Date(start).getTime()) / (1000 * 3600 * 24);
@@ -230,7 +235,7 @@ export default class Gantt extends Component {
           this.ganttContainer = input;
         }}
         style={{ width: "100%", height: "100%" }}
-      ></div>
+      />
     );
   }
 }
