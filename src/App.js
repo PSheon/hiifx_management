@@ -3,6 +3,8 @@ import { gantt } from "dhtmlx-gantt";
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import MessageArea from "./components/MessageArea";
+import * as CONSTANT from "./utils/constant";
+import * as utils from "./utils";
 import "./App.css";
 
 Date.prototype.Format = function (fmt) {
@@ -10,7 +12,7 @@ Date.prototype.Format = function (fmt) {
   var o = {
     "M+": this.getMonth() + 1, //月份
     "d+": this.getDate(), //日
-    "h+": this.getHours(), //小时
+    "h+": this.getHours(), //小時
     "m+": this.getMinutes(), //分
     "s+": this.getSeconds(), //秒
     "q+": Math.floor((this.getMonth() + 3) / 3), //季度
@@ -30,29 +32,6 @@ Date.prototype.Format = function (fmt) {
   return fmt;
 };
 
-const INIT_DATA = {
-  data: [
-    {
-      id: 1,
-      holder: "自己",
-      start_date: "2020-01-01",
-      amount: 1500,
-      duration: 30,
-      progress: 0.6,
-      $open: true,
-    },
-    {
-      id: 2,
-      holder: "投資人 #1",
-      start_date: "2020-01-01",
-      parent: 1,
-      amount: 1500,
-      duration: 30,
-      progress: 0.4,
-    },
-  ],
-  links: [{ id: 1, source: 1, target: 2, type: "0" }],
-};
 class App extends Component {
   state = {
     isReady: false,
@@ -87,6 +66,11 @@ class App extends Component {
           id: item.id,
           holder: item.holder,
           amount: item.amount ?? 0,
+          directMember: gantt.getChildren(item.id).length ?? 0,
+          directMemberAmount: utils.getFirstLayerAmount(item.id) ?? 0,
+          teamMember: utils.getAllLayerAmount(item.id)["teamMember"],
+          teamAmount: utils.getAllLayerAmount(item.id)["teamAmount"],
+          level: utils.getSelfLevel(item.id),
           start_date: new Date(item.start_date).Format("yyyy-MM-dd"),
           duration: item.duration ?? 35,
           progress: item.progress ?? 0.6,
@@ -106,8 +90,8 @@ class App extends Component {
     if (!!LOCAL_DATA) {
       this.setState({ tasks: JSON.parse(LOCAL_DATA), isReady: true });
     } else {
-      localStorage.setItem("hiifx_data", JSON.stringify(INIT_DATA));
-      this.setState({ tasks: INIT_DATA, isReady: true });
+      localStorage.setItem("hiifx_data", JSON.stringify(CONSTANT.INIT_DATA));
+      this.setState({ tasks: CONSTANT.INIT_DATA, isReady: true });
     }
   }
 
@@ -116,7 +100,7 @@ class App extends Component {
 
     return (
       <div>
-        <div className="zoom-bar">
+        <div className="tool-bar-container">
           <Toolbar />
         </div>
         <div className="gantt-container">

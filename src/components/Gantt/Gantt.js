@@ -9,6 +9,7 @@ import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
 
 import * as utils from "../../utils";
+import * as CONSTANT from "../../utils/constant";
 
 export default class Gantt extends Component {
   constructor(props) {
@@ -20,77 +21,7 @@ export default class Gantt extends Component {
   dataProcessor = null;
 
   initZoom() {
-    gantt.ext.zoom.init({
-      levels: [
-        {
-          name: "日",
-          scale_height: 27,
-          min_column_width: 80,
-          scales: [{ unit: "day", step: 1, format: "%d %M" }],
-        },
-        {
-          name: "週",
-          scale_height: 50,
-          min_column_width: 50,
-          scales: [
-            {
-              unit: "week",
-              step: 1,
-              format: function (date) {
-                var dateToStr = gantt.date.date_to_str("%d %M");
-                var endDate = gantt.date.add(date, -6, "day");
-                var weekNum = gantt.date.date_to_str("%W")(date);
-                return (
-                  "#" +
-                  weekNum +
-                  ", " +
-                  dateToStr(date) +
-                  " - " +
-                  dateToStr(endDate)
-                );
-              },
-            },
-            { unit: "day", step: 1, format: "%j %D" },
-          ],
-        },
-        {
-          name: "月",
-          scale_height: 50,
-          min_column_width: 120,
-          scales: [
-            { unit: "month", format: "%F, %Y" },
-            { unit: "week", format: "Week #%W" },
-          ],
-        },
-        {
-          name: "季",
-          height: 50,
-          min_column_width: 90,
-          scales: [
-            { unit: "month", step: 1, format: "%M" },
-            {
-              unit: "quarter",
-              step: 1,
-              format: function (date) {
-                var dateToStr = gantt.date.date_to_str("%M");
-                var endDate = gantt.date.add(
-                  gantt.date.add(date, 3, "month"),
-                  -1,
-                  "day"
-                );
-                return dateToStr(date) + " - " + dateToStr(endDate);
-              },
-            },
-          ],
-        },
-        {
-          name: "年",
-          scale_height: 50,
-          min_column_width: 30,
-          scales: [{ unit: "year", step: 1, format: "%Y" }],
-        },
-      ],
-    });
+    gantt.ext.zoom.init(CONSTANT.ZOOM_CONFIG);
   }
 
   setZoom(value) {
@@ -122,26 +53,11 @@ export default class Gantt extends Component {
   }
 
   componentDidMount() {
-    const holderEditor = { type: "text", map_to: "holder" };
-    const amountEditor = { type: "text", map_to: "amount" };
-    const durationEditor = {
-      type: "number",
-      map_to: "duration",
-      min: 0,
-      max: 50,
-    };
-    const startDateEditor = {
-      type: "date",
-      map_to: "start_date",
-      min: new Date(2018, 0, 1),
-      max: new Date(),
-    };
-    const dateToStr = gantt.date.date_to_str(gantt.config.task_date);
     gantt.addMarker({
       start_date: new Date(),
       css: "today",
       text: "今天",
-      title: dateToStr(new Date()),
+      title: utils.dateToStr(new Date()),
     });
 
     gantt.config.quickinfo_buttons = ["icon_edit", "icon_delete"];
@@ -165,7 +81,7 @@ export default class Gantt extends Component {
         max_width: 200,
         tree: true,
         resize: true,
-        editor: holderEditor,
+        editor: utils.holderEditor,
       },
       {
         name: "amount",
@@ -173,7 +89,7 @@ export default class Gantt extends Component {
         align: "center",
         min_width: 40,
         resize: true,
-        editor: amountEditor,
+        editor: utils.amountEditor,
       },
       {
         name: "start_date",
@@ -181,15 +97,7 @@ export default class Gantt extends Component {
         align: "center",
         max_width: 96,
         resize: true,
-        editor: startDateEditor,
-      },
-      {
-        name: "duration",
-        label: "託管時間",
-        align: "center",
-        max_width: 64,
-        resize: true,
-        editor: durationEditor,
+        editor: utils.startDateEditor,
       },
       { name: "add", width: 40 },
     ];
@@ -253,11 +161,12 @@ export default class Gantt extends Component {
     };
     gantt.templates.quick_info_title = (start, end, task) => task.holder;
     gantt.templates.quick_info_content = (start, end, task) =>
-      `自身綁定： ${task.amount} </br>
-      有效直推：${gantt.getChildren(task.id).length} </br>
-      直推綁定： ${utils.getFirstLayerAmount(task.id)} </br>
-      團隊人數： ${utils.getAllLayerAmount(task.id)["teamMembers"]} </br>
-      團隊綁定： ${utils.getAllLayerAmount(task.id)["teamAmount"]} </br>
+      `階級： 尚未完成 </br>
+      自身綁定： ${task.amount} </br>
+      有效直推：${task["directMember"]} </br>
+      直推綁定： ${task["directMemberAmount"]} </br>
+      團隊人數： ${task["teamMember"]} </br>
+      團隊綁定： ${task["teamAmount"]} </br>
       `;
     gantt.templates.scale_cell_class = (date) => {
       if (date.getDay() === 0 || date.getDay() === 6) {
@@ -292,6 +201,12 @@ export default class Gantt extends Component {
       };
       return LINK_TABLE[link.source] ?? "";
     };
+    gantt.templates.grid_folder = (item) =>
+      `<div class='gantt_tree_icon gantt_folder_${
+        item.$open ? "open" : "closed"
+      } ${item.level}'></div>`;
+    gantt.templates.grid_file = (item) =>
+      `<div class='gantt_tree_icon gantt_file ${item.level}'></div>`;
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);
