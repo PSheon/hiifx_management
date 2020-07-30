@@ -44,19 +44,20 @@ export const getSelfLevel = (uid) => {
 export const sterilizateData = (unsafeData) => {
   const sterilizatedData = {
     data: unsafeData?.data.map((item) => ({
+      id: item?.id,
+      holder: item?.holder,
       amount: item?.amount,
       directMember: item?.directMember,
       directMemberAmount: item?.directMemberAmount,
+      teamMember: item?.teamMember,
+      teamAmount: item?.teamAmount,
+      level: item?.level,
+      start_date: item?.start_date,
       duration: item?.duration,
       end_date: item?.end_date,
-      holder: item?.holder,
-      id: item?.id,
-      level: item?.level,
       parent: item?.parent,
       progress: item?.progress,
-      start_date: item?.start_date,
-      teamAmount: item?.teamAmount,
-      teamMember: item?.teamMember,
+      $open: true,
     })),
     links: unsafeData?.links.map((item) => ({
       id: item.id,
@@ -73,6 +74,13 @@ export const getSelfProgress = (start_date) => {
   const entrustInDate =
     (new Date().getTime() - new Date(start_date).getTime()) /
     (1000 * 3600 * 24);
+  const progress = Math.floor((entrustInDate / 35) * 100) / 100;
+
+  if (progress <= 0) {
+    return 0;
+  } else if (progress >= 100) {
+    return 100;
+  }
   return Math.floor((entrustInDate / 35) * 100) / 100;
 };
 

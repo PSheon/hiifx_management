@@ -12,7 +12,7 @@ import fileDownloader from "js-file-download";
 
 import * as utils from "../../utils";
 
-const Toolbar = () => {
+const Toolbar = ({ handleImportData }) => {
   const handleFullscreen = () => {
     gantt.ext.fullscreen.expand();
 
@@ -38,7 +38,7 @@ const Toolbar = () => {
   };
 
   const handleExportModel = () => {
-    gantt.modalbox({
+    window.importBox = gantt.modalbox({
       title: "匯入 匯出 團隊紀錄",
       text: `<label for="data-import" class="data-import-label">
               匯入紀錄
@@ -80,20 +80,22 @@ const Toolbar = () => {
               JSON.stringify(validatedNewData)
             );
             gantt.message({
-              type: "error",
-              text: "匯入資料格式錯誤",
+              type: "info",
+              text: "匯入成功~~🎉🎉",
             });
+
+            handleImportData();
           } catch (err) {
             gantt.message({
               type: "error",
-              text: "匯入資料格式錯誤",
+              text: "匯入資料格式錯誤 😱😱",
             });
           }
         });
         FILE_READER.addEventListener("error", () => {
           gantt.message({
             type: "error",
-            text: "匯入資料時發生錯誤",
+            text: "匯入資料時發生錯誤 😱😱",
           });
         });
 
@@ -102,7 +104,16 @@ const Toolbar = () => {
     };
 
     gantt.importFromJSON = importFromJSON;
-  }, []);
+
+    gantt.attachEvent("onCollapse", function () {
+      gantt.getGridColumn("wbs").hide = false;
+      gantt.getGridColumn("start_date").hide = false;
+
+      gantt.config.grid_width = 450;
+
+      gantt.render();
+    });
+  }, [handleImportData]);
 
   return (
     <div className="tool-bar">

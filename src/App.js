@@ -85,6 +85,13 @@ class App extends Component {
     }
   };
 
+  updateImportData = () => {
+    this.setState({ isReady: false });
+    const LOCAL_DATA = localStorage.getItem("hiifx_data");
+    this.setState({ tasks: JSON.parse(LOCAL_DATA), isReady: true });
+    gantt.modalbox.hide(window.importBox);
+  };
+
   componentDidMount() {
     const LOCAL_DATA = localStorage.getItem("hiifx_data");
     if (!!LOCAL_DATA) {
@@ -101,7 +108,7 @@ class App extends Component {
     return (
       <div>
         <div className="tool-bar-container">
-          <Toolbar />
+          <Toolbar handleImportData={this.updateImportData} />
         </div>
         <div className="gantt-container">
           {isReady && (
