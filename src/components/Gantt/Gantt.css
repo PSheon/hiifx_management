@@ -35,26 +35,22 @@
   background: #34c461;
 }
 .top-layer .gantt_task_progress {
-  background: #23964d;
+  background: #29b05a;
 }
 .gantt_task_line.first-layer {
   border: 2px solid #ffa500;
   background: #ffa500;
 }
 .first-layer .gantt_task_progress {
-  background: #d88f1c;
+  background: #e39b2b;
 }
 .gantt_task_line.second-layer {
-  /* border: 2px solid #d96c49;
-  color: #d96c49;
-  background: #d96c49; */
   border: 2px solid #6ba8e3;
   color: #6ba8e3;
   background: #6ba8e3;
 }
 .second-layer .gantt_task_progress {
-  /* background: #db2536; */
-  background: #547dab;
+  background: #658ab3;
 }
 
 /* Gantt Link Color */
@@ -75,6 +71,16 @@
 }
 .third-link .gantt_link_arrow_right {
   border-left-color: #6ba8e3;
+}
+
+.gantt_grid_data .gantt_row.gantt_selected,
+.gantt_grid_data .gantt_row.odd.gantt_selected,
+.gantt_task_row.gantt_selected {
+  background: #f4f7f4;
+}
+.gantt_grid_data .gantt_row.odd:hover,
+.gantt_grid_data .gantt_row:hover {
+  background: #f4f7f4;
 }
 
 /* Grid Area Tree Icon */
