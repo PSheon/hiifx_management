@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { gantt } from "dhtmlx-gantt";
 import {
+  ChevronDown,
+  ChevronRight,
   SkipBack,
   SkipForward,
   Maximize,
@@ -13,15 +15,27 @@ import fileDownloader from "js-file-download";
 import * as utils from "../../utils";
 
 const Toolbar = ({ handleImportData }) => {
+  const [isFullGrid, setIsFullGrid] = useState(true);
+
+  const handleToggleGrid = () => {
+    setIsFullGrid(!isFullGrid);
+
+    if (isFullGrid) {
+      gantt.getGridColumn("wbs").hide = true;
+      gantt.getGridColumn("start_date").hide = true;
+
+      gantt.config.grid_width = 150;
+    } else {
+      gantt.getGridColumn("wbs").hide = false;
+      gantt.getGridColumn("start_date").hide = false;
+
+      gantt.config.grid_width = 450;
+    }
+    gantt.render();
+  };
+
   const handleFullscreen = () => {
     gantt.ext.fullscreen.expand();
-
-    gantt.getGridColumn("wbs").hide = true;
-    gantt.getGridColumn("start_date").hide = true;
-
-    gantt.config.grid_width = 150;
-
-    gantt.render();
   };
 
   const exportAndDownload = () => {
@@ -104,20 +118,12 @@ const Toolbar = ({ handleImportData }) => {
     };
 
     gantt.importFromJSON = importFromJSON;
-
-    gantt.attachEvent("onCollapse", function () {
-      gantt.getGridColumn("wbs").hide = false;
-      gantt.getGridColumn("start_date").hide = false;
-
-      gantt.config.grid_width = 450;
-
-      gantt.render();
-    });
   }, [handleImportData]);
 
   return (
     <div className="tool-bar">
-      <div>
+      <div className="logo-wrapper" onClick={handleToggleGrid}>
+        {isFullGrid ? <ChevronDown /> : <ChevronRight />}
         <b className="short-LOGO">海匯</b>
         <b className="full-LOGO">海匯團隊資金管理工具</b>
       </div>
