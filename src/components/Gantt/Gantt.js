@@ -134,6 +134,7 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels["icon_delete"] = "刪除紀錄";
     gantt.locale.labels["icon_edit"] = "編輯紀錄";
+    gantt.locale.labels["confirm_deleting"] = "是否刪除紀錄？";
     gantt.locale.labels["link"] = "連結";
     gantt.locale.labels["confirm_link_deleting"] = "將被刪除";
     gantt.locale.labels["message_cancel"] = "關閉";
@@ -152,6 +153,10 @@ export default class Gantt extends Component {
         });
         return false;
       }
+      item.directMember = 0;
+      item.directMemberAmount = 0;
+      item.teamMember = 0;
+      item.teamAmount = 0;
       return true;
     });
 
@@ -218,20 +223,12 @@ export default class Gantt extends Component {
       `<div class='gantt_tree_icon gantt_file ${item.level}'></div>`;
     gantt.templates.drag_link = (from, from_start, to, to_start) => {
       from = gantt.getTask(from);
-      let text =
-        "推薦人 > <b> " +
-        from.holder +
-        "</b> " +
-        (from_start ? "" : "結束") +
-        "<br/>";
+      let text = `推薦人 > <b>${from.holder}</b> ${
+        from_start ? "" : "結束"
+      }<br/>`;
       if (to) {
         to = gantt.getTask(to);
-        text +=
-          "投資人 > <b> " +
-          to.holder +
-          "</b> " +
-          (to_start ? "" : "結束") +
-          "<br/>";
+        text += `投資人 > <b>${to.holder}</b> ${to_start ? "" : "結束"} <br/>`;
       }
       return text;
     };
@@ -244,19 +241,10 @@ export default class Gantt extends Component {
       let to_start =
         link.type === types.finish_to_start ||
         link.type === types.start_to_start;
-      let text =
-        "推薦人 <b>" +
-        from.holder +
-        "</b> " +
-        (from_start ? "" : "End") +
-        "<br/>";
-      text +=
-        "與 投資人 <b>" +
-        to.holder +
-        "</b> " +
-        (to_start ? "" : "End") +
-        "<br/>";
-
+      let text = `推薦人 <b>${from.holder}</b> ${
+        from_start ? "" : "結束"
+      } <br/>`;
+      text += `與 投資人 <b>${to.holder}</b> ${to_start ? "" : "結束"} <br/>`;
       return text;
     };
 

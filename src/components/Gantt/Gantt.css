@@ -73,14 +73,23 @@
   border-left-color: #6ba8e3;
 }
 
+/* Chart Hover Animation */
+.gantt_task_row,
+.gantt_row {
+  transition: background-color 0.3s;
+}
 .gantt_grid_data .gantt_row.gantt_selected,
 .gantt_grid_data .gantt_row.odd.gantt_selected,
-.gantt_task_row.gantt_selected {
+.gantt_task_row.gantt_selected,
+.gantt_task_row:hover {
   background: #f4f7f4;
 }
 .gantt_grid_data .gantt_row.odd:hover,
 .gantt_grid_data .gantt_row:hover {
   background: #f4f7f4;
+}
+.gantt_task_row.gantt_selected .gantt_task_cell {
+  border-right-color: #ebebeb;
 }
 
 /* Grid Area Tree Icon */
