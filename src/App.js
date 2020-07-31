@@ -7,31 +7,6 @@ import * as CONSTANT from "./utils/constant";
 import * as utils from "./utils";
 import "./App.css";
 
-Date.prototype.Format = function (fmt) {
-  //author: meizz
-  var o = {
-    "M+": this.getMonth() + 1, //月份
-    "d+": this.getDate(), //日
-    "h+": this.getHours(), //小時
-    "m+": this.getMinutes(), //分
-    "s+": this.getSeconds(), //秒
-    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-    S: this.getMilliseconds(), //毫秒
-  };
-  if (/(y+)/.test(fmt))
-    fmt = fmt.replace(
-      RegExp.$1,
-      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
-    );
-  for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt))
-      fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
-      );
-  return fmt;
-};
-
 class App extends Component {
   state = {
     isReady: false,
@@ -61,23 +36,21 @@ class App extends Component {
         message += ` ( source: ${item.source}, target: ${item.target} )`;
       }
       this.addMessage(message);
+      const { data: currentData, links: currentLinks } = gantt.serialize();
       const NEW_DATA = {
-        data: gantt.getTaskByTime().map((newItem) => ({
-          id: newItem.id,
-          holder: newItem.holder,
-          amount: newItem.amount ?? 0,
+        data: currentData.map((newItem) => ({
+          ...newItem,
+          end_date: undefined,
           directMember: gantt.getChildren(newItem.id).length ?? 0,
           directMemberAmount: utils.getFirstLayerAmount(newItem.id) ?? 0,
           teamMember: utils.getAllLayerAmount(newItem.id)["teamMember"],
           teamAmount: utils.getAllLayerAmount(newItem.id)["teamAmount"],
           level: utils.getSelfLevel(newItem.id),
-          start_date: new Date(newItem.start_date).Format("yyyy-MM-dd"),
           duration: 35,
           progress: utils.getSelfProgress(newItem.start_date) ?? 0.6,
-          parent: newItem.parent ?? undefined,
           $open: true,
         })),
-        links: gantt.getLinks(),
+        links: currentLinks,
       };
 
       localStorage.setItem("hiifx_data", JSON.stringify(NEW_DATA));

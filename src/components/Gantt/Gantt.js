@@ -134,7 +134,9 @@ export default class Gantt extends Component {
     gantt.locale.labels["section_time"] = "託管時間";
     gantt.locale.labels["icon_delete"] = "刪除紀錄";
     gantt.locale.labels["icon_edit"] = "編輯紀錄";
+    gantt.locale.labels["link"] = "連結";
     gantt.locale.labels["confirm_link_deleting"] = "將被刪除";
+    gantt.locale.labels["message_cancel"] = "關閉";
     gantt.locale.labels.icon_save = "儲資金紀錄";
     gantt.locale.labels.icon_cancel = "取消";
 
@@ -184,7 +186,9 @@ export default class Gantt extends Component {
       }
     };
     gantt.templates.task_text = (start, end, task) =>
-      `<b>${task.holder}</b> 綁定 <b>${task.amount}</b> 美金`;
+      task.holder && task.amount
+        ? `<b>${task.holder}</b> 綁定 <b>${task.amount}</b> 美金`
+        : "";
     gantt.templates.rightside_text = (start, end, task) => {
       const entrustInDate =
         (new Date().getTime() - new Date(start).getTime()) / (1000 * 3600 * 24);
@@ -212,6 +216,49 @@ export default class Gantt extends Component {
       } ${item.level}'></div>`;
     gantt.templates.grid_file = (item) =>
       `<div class='gantt_tree_icon gantt_file ${item.level}'></div>`;
+    gantt.templates.drag_link = (from, from_start, to, to_start) => {
+      from = gantt.getTask(from);
+      let text =
+        "推薦人 > <b> " +
+        from.holder +
+        "</b> " +
+        (from_start ? "" : "結束") +
+        "<br/>";
+      if (to) {
+        to = gantt.getTask(to);
+        text +=
+          "投資人 > <b> " +
+          to.holder +
+          "</b> " +
+          (to_start ? "" : "結束") +
+          "<br/>";
+      }
+      return text;
+    };
+    gantt.templates.link_description = function (link) {
+      let from = gantt.getTask(link.source),
+        to = gantt.getTask(link.target),
+        types = gantt.config.links;
+
+      let from_start = link.type === types.start_to_start;
+      let to_start =
+        link.type === types.finish_to_start ||
+        link.type === types.start_to_start;
+      let text =
+        "推薦人 <b>" +
+        from.holder +
+        "</b> " +
+        (from_start ? "" : "End") +
+        "<br/>";
+      text +=
+        "與 投資人 <b>" +
+        to.holder +
+        "</b> " +
+        (to_start ? "" : "End") +
+        "<br/>";
+
+      return text;
+    };
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);
