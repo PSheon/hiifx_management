@@ -12,6 +12,7 @@ import {
 } from "react-feather";
 import fileDownloader from "js-file-download";
 
+import * as CONSTANT from "../../utils/constant";
 import * as utils from "../../utils";
 
 const Toolbar = ({ handleImportData }) => {
@@ -38,6 +39,11 @@ const Toolbar = ({ handleImportData }) => {
     gantt.ext.fullscreen.expand();
   };
 
+  const restoreData = () => {
+    localStorage.setItem("hiifx_data", JSON.stringify(CONSTANT.INIT_DATA));
+    window.location.reload();
+  };
+
   const exportAndDownload = () => {
     const result = gantt.serialize();
 
@@ -62,6 +68,11 @@ const Toolbar = ({ handleImportData }) => {
       width: "500px",
       buttons: [
         {
+          label: "重設紀錄",
+          css: "data_export_restore",
+          value: "restore",
+        },
+        {
           label: "匯出紀錄",
           css: "data_export_btn",
           value: "export",
@@ -69,6 +80,9 @@ const Toolbar = ({ handleImportData }) => {
         { label: "取消", css: "data_cancel_btn", value: "cancel" },
       ],
       callback: function (action) {
+        if (action === "restore") {
+          restoreData();
+        }
         if (action === "export") {
           exportAndDownload();
         }
