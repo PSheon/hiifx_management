@@ -8,7 +8,7 @@ import {
   Maximize,
   ZoomIn,
   ZoomOut,
-  Download,
+  Settings,
 } from "react-feather";
 import fileDownloader from "js-file-download";
 
@@ -59,7 +59,7 @@ const Toolbar = ({ handleImportData }) => {
 
   const handleExportModel = () => {
     window.importBox = gantt.modalbox({
-      title: "匯入 匯出 團隊紀錄",
+      title: "設定",
       text: `<label for="data-import" class="data-import-label">
               匯入紀錄
             </label>
@@ -154,7 +154,7 @@ const Toolbar = ({ handleImportData }) => {
           <Maximize />
         </div>
         <div className="export-icon-wrapper" onClick={handleExportModel}>
-          <Download />
+          <Settings />
         </div>
       </div>
     </div>
