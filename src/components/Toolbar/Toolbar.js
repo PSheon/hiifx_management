@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { gantt } from "dhtmlx-gantt";
 import {
-  ChevronDown,
+  Menu,
   ChevronRight,
   SkipBack,
   SkipForward,
@@ -30,7 +30,7 @@ const Toolbar = ({ handleImportData }) => {
       gantt.getGridColumn("wbs").hide = false;
       gantt.getGridColumn("start_date").hide = false;
 
-      gantt.config.grid_width = 450;
+      gantt.config.grid_width = 300;
     }
     gantt.render();
   };
@@ -136,8 +136,8 @@ const Toolbar = ({ handleImportData }) => {
 
   return (
     <div className="tool-bar">
-      <div className="logo-wrapper" onClick={handleToggleGrid}>
-        {isFullGrid ? <ChevronDown /> : <ChevronRight />}
+      <div className="logo-wrapper noselect" onClick={handleToggleGrid}>
+        {isFullGrid ? <Menu /> : <ChevronRight />}
         <b className="short-LOGO">海匯</b>
         <b className="full-LOGO">海匯團隊資金管理工具</b>
       </div>

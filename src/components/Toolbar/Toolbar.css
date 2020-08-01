@@ -12,7 +12,7 @@
   align-items: center;
 }
 .logo-wrapper svg {
-  padding-right: 0.4rem;
+  padding: 0 0.4rem;
 }
 
 input[type="file"] {
