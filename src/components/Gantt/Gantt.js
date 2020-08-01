@@ -160,6 +160,15 @@ export default class Gantt extends Component {
       item.teamAmount = 0;
       return true;
     });
+    gantt.attachEvent("onBeforeLinkAdd", function (id, link) {
+      if (link.type !== "1") {
+        gantt.message({
+          type: "error",
+          text: "請從託管開始日開始連接",
+        });
+        return false;
+      }
+    });
 
     gantt.templates.task_class = function (start, end, task) {
       const currentLayer = (gantt.getWBSCode(task).match(/\./g) || []).length;

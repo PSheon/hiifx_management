@@ -83,6 +83,10 @@ class App extends Component {
         <div className="tool-bar-container">
           <Toolbar handleImportData={this.updateImportData} />
         </div>
+        <div id="rotate-hint">
+          <div id="rotate-icon-wrapper" />
+          <div id="rotate-hint-wrapper">請翻轉手機</div>
+        </div>
         <div className="gantt-container">
           {isReady && (
             <GanttChart
