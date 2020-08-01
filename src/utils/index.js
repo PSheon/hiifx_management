@@ -1,5 +1,28 @@
 import { gantt } from "dhtmlx-gantt";
 
+const isLevelIB = (data) => {
+  const { amount, directMember, directMemberAmount, teamAmount } = data;
+  return (
+    Number(amount) >= 1500 &&
+    Number(directMember) >= 4 &&
+    Number(directMemberAmount) >= 9000 &&
+    Number(teamAmount) >= 15000
+  );
+};
+
+export const levelConverter = (level) => {
+  switch (level) {
+    case "ib":
+      return "IB 經理人";
+    case "mib":
+      return "MIB 經理人";
+    case "pib":
+      return "PIB 經理人";
+    default:
+      return "投資人";
+  }
+};
+
 export const getAllLayerAmount = (uid) => {
   let children = [];
   let childrenAmount = [];
@@ -36,8 +59,14 @@ export const getFirstLayerAmount = (uid) => {
 };
 
 export const getSelfLevel = (uid) => {
-  // TODO implement this function
-  // retrun ['trader', 'ib', 'mib', 'pib']
+  /*
+    TODO implement this function
+    ['trader', 'ib', 'mib', 'pib']
+  */
+  const selfData = gantt.getTask(uid);
+  if (isLevelIB(selfData)) {
+    return "ib";
+  }
   return "trader";
 };
 

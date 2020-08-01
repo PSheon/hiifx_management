@@ -7,6 +7,15 @@
   background: #f4f7f4 !important;
 }
 
+.fa.gantt_grid_add {
+  color: #93d5e5;
+  cursor: pointer;
+  font-size: 18px;
+  text-align: center;
+  opacity: 1;
+  padding: 8px;
+}
+
 .gantt_time_selects {
   display: flex;
   justify-content: center;

@@ -104,7 +104,15 @@ export default class Gantt extends Component {
         resize: true,
         editor: utils.startDateEditor,
       },
-      { name: "add", width: 40 },
+      {
+        name: "add",
+        // label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35, type: 'project'})"></div>`,
+        label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35})"></div>`,
+        align: "center",
+        width: 40,
+        template: (task) =>
+          `<i class="fa gantt_button_grid gantt_grid_add fa-plus" onclick="gantt.createTask({duration: 35}, ${task.id});"></i>`,
+      },
     ];
     gantt.config.lightbox.sections = [
       {
@@ -147,10 +155,10 @@ export default class Gantt extends Component {
         gantt.message({ type: "error", text: "請輸入投資人" });
         return false;
       }
-      if (!item.amount) {
+      if (!item.amount || isNaN(item.amount)) {
         gantt.message({
           type: "error",
-          text: "請輸入投資額",
+          text: "請輸入正確的投資額",
         });
         return false;
       }
@@ -183,7 +191,7 @@ export default class Gantt extends Component {
     gantt.templates.quick_info_title = (start, end, task) =>
       `${task.holder} 綁定 ${task.amount} 美金`;
     gantt.templates.quick_info_content = (start, end, task) =>
-      `身份： 尚未完成 </br>
+      `身份： ${utils.levelConverter(task.level)} </br>
       自身綁定： ${task.amount} </br>
       有效直推：${task["directMember"]} </br>
       直推綁定： ${task["directMemberAmount"]} </br>
