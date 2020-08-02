@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "55a4ecf37985580b0de6da212ffd16e3",
+    "revision": "79a6c78fecad436f395975246f3f577d",
     "url": "/hiifx_management/index.html"
   },
   {
-    "revision": "dc1ffb6c072b56f93943",
+    "revision": "0b9cc9e65b4d587812ee",
     "url": "/hiifx_management/static/css/main.3acadd4a.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hiifx_management/static/js/2.51beaef1.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "dc1ffb6c072b56f93943",
-    "url": "/hiifx_management/static/js/main.858e3a10.chunk.js"
+    "revision": "0b9cc9e65b4d587812ee",
+    "url": "/hiifx_management/static/js/main.99b919e7.chunk.js"
   },
   {
     "revision": "10ab028616317d6a2380",
