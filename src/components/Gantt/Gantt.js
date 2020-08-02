@@ -162,6 +162,7 @@ export default class Gantt extends Component {
         });
         return false;
       }
+      item.progress = 0.5;
       item.directMember = 0;
       item.directMemberAmount = 0;
       item.teamMember = 0;
