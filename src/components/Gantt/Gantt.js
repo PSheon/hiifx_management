@@ -81,8 +81,8 @@ export default class Gantt extends Component {
       {
         name: "holder",
         label: "投資人",
-        min_width: 160,
-        max_width: 200,
+        min_width: 128,
+        max_width: 228,
         tree: true,
         resize: true,
         editor: utils.holderEditor,
@@ -91,7 +91,6 @@ export default class Gantt extends Component {
         name: "amount",
         label: "投資額",
         align: "center",
-        min_width: 64,
         max_width: 80,
         resize: true,
         editor: utils.amountEditor,

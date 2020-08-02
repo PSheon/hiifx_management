@@ -24,13 +24,15 @@ const Toolbar = ({ handleImportData }) => {
     if (isFullGrid) {
       gantt.getGridColumn("wbs").hide = true;
       gantt.getGridColumn("start_date").hide = true;
+      gantt.getGridColumn("amount").hide = true;
 
       gantt.config.grid_width = 150;
     } else {
       gantt.getGridColumn("wbs").hide = false;
       gantt.getGridColumn("start_date").hide = false;
+      gantt.getGridColumn("amount").hide = false;
 
-      gantt.config.grid_width = 300;
+      gantt.config.grid_width = 190;
     }
     gantt.render();
   };
