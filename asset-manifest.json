@@ -6,21 +6,21 @@
     "runtime-main.js": "/hiifx_management/static/js/runtime-main.57b51508.js",
     "runtime-main.js.map": "/hiifx_management/static/js/runtime-main.57b51508.js.map",
     "static/css/2.f090b26d.chunk.css": "/hiifx_management/static/css/2.f090b26d.chunk.css",
-    "static/js/2.d839b55f.chunk.js": "/hiifx_management/static/js/2.d839b55f.chunk.js",
-    "static/js/2.d839b55f.chunk.js.map": "/hiifx_management/static/js/2.d839b55f.chunk.js.map",
+    "static/js/2.31967e45.chunk.js": "/hiifx_management/static/js/2.31967e45.chunk.js",
+    "static/js/2.31967e45.chunk.js.map": "/hiifx_management/static/js/2.31967e45.chunk.js.map",
     "hiifx-sw.js": "/hiifx_management/hiifx-sw.js",
     "index.html": "/hiifx_management/index.html",
-    "precache-manifest.19c7b43b9df9f9bc5f9d2e6fa9156acc.js": "/hiifx_management/precache-manifest.19c7b43b9df9f9bc5f9d2e6fa9156acc.js",
-    "precache-manifest.44a81714d2f6f2dede549de907574571.js": "/hiifx_management/precache-manifest.44a81714d2f6f2dede549de907574571.js",
+    "precache-manifest.a291170a516e96d3c5a565bdf70de29a.js": "/hiifx_management/precache-manifest.a291170a516e96d3c5a565bdf70de29a.js",
+    "precache-manifest.cedaa5a2361b570ac505fa92d56223bb.js": "/hiifx_management/precache-manifest.cedaa5a2361b570ac505fa92d56223bb.js",
     "service-worker.js": "/hiifx_management/service-worker.js",
     "static/css/2.f090b26d.chunk.css.map": "/hiifx_management/static/css/2.f090b26d.chunk.css.map",
     "static/css/main.46b18696.chunk.css.map": "/hiifx_management/static/css/main.46b18696.chunk.css.map",
-    "static/js/2.d839b55f.chunk.js.LICENSE.txt": "/hiifx_management/static/js/2.d839b55f.chunk.js.LICENSE.txt"
+    "static/js/2.31967e45.chunk.js.LICENSE.txt": "/hiifx_management/static/js/2.31967e45.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.57b51508.js",
     "static/css/2.f090b26d.chunk.css",
-    "static/js/2.d839b55f.chunk.js",
+    "static/js/2.31967e45.chunk.js",
     "static/css/main.46b18696.chunk.css",
     "static/js/main.4c6c1d04.chunk.js"
   ]
