@@ -6,7 +6,7 @@
 /* Grid Area */
 .gantt_cell[data-column-name="holder"] {
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 .gantt_grid .gantt_grid_scale,
 .gantt_grid .gantt_row {
