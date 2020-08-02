@@ -8,7 +8,7 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect.js";
 import "dhtmlx-gantt/codebase/locale/locale_cn.js";
-import "dhtmlx-gantt/codebase/dhtmlxgantt.css";
+import "./dhtmlxgantt_material.css";
 
 import * as utils from "../../utils";
 import * as CONSTANT from "../../utils/constant";
@@ -92,7 +92,7 @@ export default class Gantt extends Component {
         label: "投資額",
         align: "center",
         min_width: 64,
-        max_width: 96,
+        max_width: 80,
         resize: true,
         editor: utils.amountEditor,
       },
@@ -100,15 +100,16 @@ export default class Gantt extends Component {
         name: "start_date",
         label: "初始託管日",
         align: "center",
+        min_width: 80,
         max_width: 96,
         resize: true,
         editor: utils.startDateEditor,
       },
       {
         name: "add_buttons",
-        label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35})"></div>`,
+        label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35})"><i class="fa fa-plus"></i></div>`,
         align: "center",
-        width: 40,
+        max_width: 40,
         template: (task) =>
           `<i class="fa gantt_button_grid gantt_grid_add fa-plus" onclick="gantt.createTask({duration: 35}, ${task.id});"></i>`,
       },
@@ -136,6 +137,13 @@ export default class Gantt extends Component {
           ev.id === 0 ? "無推薦經紀人" : ev.holder,
       },
       { name: "time", map_to: "auto", type: "duration" },
+      {
+        name: "profit",
+        map_to: { start_date: "profit_date" },
+        type: "duration_optional",
+        button: true,
+        single_date: true,
+      },
     ];
     gantt.locale.labels["section_holder"] = "投資人";
     gantt.locale.labels["section_amount"] = "投資額";
@@ -147,8 +155,11 @@ export default class Gantt extends Component {
     gantt.locale.labels["link"] = "連結";
     gantt.locale.labels["confirm_link_deleting"] = "將被刪除";
     gantt.locale.labels["message_cancel"] = "關閉";
-    gantt.locale.labels.icon_save = "儲資金紀錄";
-    gantt.locale.labels.icon_cancel = "取消";
+    gantt.locale.labels["icon_save"] = "儲資金紀錄";
+    gantt.locale.labels["icon_cancel"] = "取消";
+    gantt.locale.labels["section_profit"] = "最近一次獲利紀錄";
+    gantt.locale.labels["profit_enable_button"] = "加入獲利紀錄";
+    gantt.locale.labels["profit_disable_button"] = "移除獲利紀錄";
 
     gantt.attachEvent("onLightboxSave", function (id, item) {
       if (!item.holder) {
@@ -211,7 +222,7 @@ export default class Gantt extends Component {
     };
     gantt.templates.task_text = (start, end, task) =>
       task.holder && task.amount
-        ? `<b>${task.holder}</b> 綁定 <b>${task.amount}</b> 美金`
+        ? `<b>${task.holder}</b> &nbsp; 綁定 &nbsp; <b>${task.amount}</b> &nbsp; 美金`
         : "";
     gantt.templates.rightside_text = (start, end, task) => {
       const entrustInDate =
@@ -266,6 +277,41 @@ export default class Gantt extends Component {
       text += `與 投資人 <b>${to.holder}</b> ${to_start ? "" : "結束"} <br/>`;
       return text;
     };
+
+    gantt.addTaskLayer({
+      renderer: {
+        render: function draw_profit(task) {
+          if (task.profit_date) {
+            var el = document.createElement("div");
+            el.className = "profit";
+            var sizes = gantt.getTaskPosition(task, task.profit_date);
+
+            el.style.left = sizes.left + "px";
+            el.style.top = sizes.top + "px";
+
+            el.setAttribute(
+              "title",
+              gantt.templates.task_date(task.profit_date)
+            );
+            return el;
+          }
+          return false;
+        },
+        // define getRectangle in order to hook layer with the smart rendering
+        getRectangle: function (task, view) {
+          if (task.profit_date) {
+            return gantt.getTaskPosition(task, task.profit_date);
+          }
+          return null;
+        },
+      },
+    });
+
+    gantt.attachEvent("onTaskLoading", function (task) {
+      if (task.profit_date)
+        task.profit_date = gantt.date.parseDate(task.profit_date, "xml_date");
+      return true;
+    });
 
     const { tasks } = this.props;
     gantt.init(this.ganttContainer);

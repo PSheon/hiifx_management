@@ -12,6 +12,7 @@
   align-items: center;
 }
 .logo-wrapper svg {
+  cursor: pointer;
   padding: 0 0.4rem;
 }
 
