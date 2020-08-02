@@ -18,7 +18,8 @@
   padding-right: 10px;
 }
 
-@media screen and (max-width: 800px) and (orientation: landscape) {
+@media screen and (max-width: 800px) and (orientation: landscape),
+  screen and (max-height: 500px) {
   .message-area {
     display: none;
   }

@@ -1,58 +1,14 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
+import PWAPrompt from "react-ios-pwa-prompt";
+
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import MessageArea from "./components/MessageArea";
+import * as CONSTANT from "./utils/constant";
+import * as utils from "./utils";
 import "./App.css";
 
-Date.prototype.Format = function (fmt) {
-  //author: meizz
-  var o = {
-    "M+": this.getMonth() + 1, //月份
-    "d+": this.getDate(), //日
-    "h+": this.getHours(), //小时
-    "m+": this.getMinutes(), //分
-    "s+": this.getSeconds(), //秒
-    "q+": Math.floor((this.getMonth() + 3) / 3), //季度
-    S: this.getMilliseconds(), //毫秒
-  };
-  if (/(y+)/.test(fmt))
-    fmt = fmt.replace(
-      RegExp.$1,
-      (this.getFullYear() + "").substr(4 - RegExp.$1.length)
-    );
-  for (var k in o)
-    if (new RegExp("(" + k + ")").test(fmt))
-      fmt = fmt.replace(
-        RegExp.$1,
-        RegExp.$1.length === 1 ? o[k] : ("00" + o[k]).substr(("" + o[k]).length)
-      );
-  return fmt;
-};
-
-const INIT_DATA = {
-  data: [
-    {
-      id: 1,
-      holder: "自己",
-      start_date: "2020-01-01",
-      amount: 1500,
-      duration: 30,
-      progress: 0.6,
-      $open: true,
-    },
-    {
-      id: 2,
-      holder: "投資人 #1",
-      start_date: "2020-01-01",
-      parent: 1,
-      amount: 1500,
-      duration: 30,
-      progress: 0.4,
-    },
-  ],
-  links: [{ id: 1, source: 1, target: 2, type: "0" }],
-};
 class App extends Component {
   state = {
     isReady: false,
@@ -82,18 +38,21 @@ class App extends Component {
         message += ` ( source: ${item.source}, target: ${item.target} )`;
       }
       this.addMessage(message);
+      const { data: currentData, links: currentLinks } = gantt.serialize();
       const NEW_DATA = {
-        data: gantt.getTaskByTime().map((item) => ({
-          id: item.id,
-          holder: item.holder,
-          amount: item.amount ?? 0,
-          start_date: new Date(item.start_date).Format("yyyy-MM-dd"),
-          duration: item.duration,
-          progress: item.progress ?? 0.6,
-          parent: item.parent ?? undefined,
+        data: currentData.map((newItem) => ({
+          ...newItem,
+          end_date: undefined,
+          directMember: gantt.getChildren(newItem.id).length ?? 0,
+          directMemberAmount: utils.getFirstLayerAmount(newItem.id) ?? 0,
+          teamMember: utils.getAllLayerAmount(newItem.id)["teamMember"],
+          teamAmount: utils.getAllLayerAmount(newItem.id)["teamAmount"],
+          level: utils.getSelfLevel(newItem.id),
+          duration: 35,
+          progress: utils.getSelfProgress(newItem.start_date) ?? 0.6,
           $open: true,
         })),
-        links: gantt.getLinks(),
+        links: currentLinks,
       };
 
       localStorage.setItem("hiifx_data", JSON.stringify(NEW_DATA));
@@ -101,10 +60,11 @@ class App extends Component {
     }
   };
 
-  handleZoomChange = (zoom) => {
-    this.setState({
-      currentZoom: zoom,
-    });
+  updateImportData = () => {
+    this.setState({ isReady: false });
+    const LOCAL_DATA = localStorage.getItem("hiifx_data");
+    this.setState({ tasks: JSON.parse(LOCAL_DATA), isReady: true });
+    gantt.modalbox.hide(window.importBox);
   };
 
   componentDidMount() {
@@ -112,8 +72,8 @@ class App extends Component {
     if (!!LOCAL_DATA) {
       this.setState({ tasks: JSON.parse(LOCAL_DATA), isReady: true });
     } else {
-      localStorage.setItem("hiifx_data", JSON.stringify(INIT_DATA));
-      this.setState({ tasks: INIT_DATA, isReady: true });
+      localStorage.setItem("hiifx_data", JSON.stringify(CONSTANT.INIT_DATA));
+      this.setState({ tasks: CONSTANT.INIT_DATA, isReady: true });
     }
   }
 
@@ -122,8 +82,12 @@ class App extends Component {
 
     return (
       <div>
-        <div className="zoom-bar">
-          <Toolbar zoom={currentZoom} onZoomChange={this.handleZoomChange} />
+        <div className="tool-bar-container">
+          <Toolbar handleImportData={this.updateImportData} />
+        </div>
+        <div id="rotate-hint">
+          <div id="rotate-icon-wrapper" />
+          <div id="rotate-hint-wrapper">請翻轉手機</div>
         </div>
         <div className="gantt-container">
           {isReady && (
@@ -135,6 +99,7 @@ class App extends Component {
           )}
         </div>
         <MessageArea messages={messages} />
+        <PWAPrompt />
       </div>
     );
   }

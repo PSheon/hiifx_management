@@ -1,4 +1,4 @@
-.zoom-bar {
+.tool-bar-container {
   background: #f7fafc;
   color: #38b2ac;
   height: 40px;
@@ -6,36 +6,93 @@
   padding: 5px 10px;
 }
 
-.tool-bar {
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.logo-wrapper svg {
+  cursor: pointer;
+  padding: 0 0.4rem;
+}
+
+input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+.data-import-label {
+  border: 1px solid #ccc;
+  color: #000000cc;
+  font-weight: bold;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+
+.action-icon-wrapper,
+.zoom-icon-wrapper {
+  padding: 0 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.action-icon-wrapper svg,
+.zoom-icon-wrapper svg {
+  padding: 0 0.4rem;
+  cursor: pointer;
+}
+.fullscreen-icon-wrapper,
+.export-icon-wrapper {
+  padding: 0 0.4rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.gantt_popup_title,
+.gantt_popup_text,
+.gantt_popup_controls {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.6rem 0;
+}
+.gantt_popup_controls .gantt_popup_button {
+  cursor: pointer;
+  margin-left: 0;
+  margin-right: 0.8rem;
+  border: 1px solid #ccc;
+}
+.gantt_popup_button.gantt_data_cancel_btn_button {
+  margin-left: auto;
+}
+
+.tool-bar,
+.tool-wrapper {
   display: flex;
   justify-content: space-between;
+  height: 40px;
 }
 
-.radio-label {
-  box-sizing: border-box;
-  cursor: pointer;
-  display: inline-block;
-  height: 30px;
-  line-height: 28px;
-  margin-left: 6px;
-  text-align: center;
-  width: 70px;
-
-  border: 1px solid #38b2ac;
-  border-radius: 2px;
-  background: #38b2ac;
-  color: #fefefe;
+/* LOGO */
+.short-LOGO {
+  display: none;
+}
+.full-LOGO {
+  display: block;
 }
 
-.radio-label > input[type="radio"] {
-  height: 0;
-  margin: 0;
-  visibility: hidden;
-  width: 0;
-}
-
-.radio-label-active {
-  background: transparent;
-  color: #4a5568;
-  border-color: #38b2ac;
+@media screen and (max-width: 460px) and (orientation: portrait) {
+  .short-LOGO {
+    display: block;
+  }
+  .full-LOGO {
+    display: none;
+  }
 }

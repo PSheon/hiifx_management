@@ -1,19 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
 
-class MessageArea extends Component {
-  render() {
-    const messages = this.props.messages.map(({ message }) => {
-      return <li key={Math.random()}>{message}</li>;
-    });
+const MessageArea = ({ messages }) => {
+  const renderMessageArea = messages.map(({ message }) => {
+    return <li key={Math.random()}>{message}</li>;
+  });
 
-    return (
-      <div className="message-area">
-        <h3>操作紀錄：</h3>
-        <ul>{messages}</ul>
-      </div>
-    );
-  }
-}
+  return (
+    <div className="message-area">
+      <h3>操作紀錄：</h3>
+      <ul>{renderMessageArea}</ul>
+    </div>
+  );
+};
 
 MessageArea.defaultProps = {
   messages: [],
