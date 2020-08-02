@@ -28,6 +28,8 @@ input[type="file"] {
 }
 .data-import-label {
   border: 1px solid #ccc;
+  color: #000000cc;
+  font-weight: bold;
   display: inline-block;
   padding: 6px 12px;
   cursor: pointer;
@@ -52,6 +54,23 @@ input[type="file"] {
   justify-content: center;
   align-items: center;
   cursor: pointer;
+}
+
+.gantt_popup_title,
+.gantt_popup_text,
+.gantt_popup_controls {
+  display: flex;
+  justify-content: flex-start;
+  margin: 0.6rem 0;
+}
+.gantt_popup_controls .gantt_popup_button {
+  cursor: pointer;
+  margin-left: 0;
+  margin-right: 0.8rem;
+  border: 1px solid #ccc;
+}
+.gantt_popup_button.gantt_data_cancel_btn_button {
+  margin-left: auto;
 }
 
 .tool-bar,

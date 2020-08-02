@@ -60,7 +60,8 @@ const Toolbar = ({ handleImportData }) => {
   const handleExportModel = () => {
     window.importBox = gantt.modalbox({
       title: "設定",
-      text: `<label for="data-import" class="data-import-label">
+      text: `
+            <label for="data-import" class="data-import-label">
               匯入紀錄
             </label>
             <input id="data-import" type="file" onchange="gantt.importFromJSON(this)" accept="application/json" />
@@ -68,14 +69,14 @@ const Toolbar = ({ handleImportData }) => {
       width: "500px",
       buttons: [
         {
-          label: "重設紀錄",
-          css: "data_export_restore",
-          value: "restore",
-        },
-        {
           label: "匯出紀錄",
           css: "data_export_btn",
           value: "export",
+        },
+        {
+          label: "重設紀錄",
+          css: "data_export_restore",
+          value: "restore",
         },
         { label: "取消", css: "data_cancel_btn", value: "cancel" },
       ],
