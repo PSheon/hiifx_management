@@ -1,5 +1,7 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
+import PWAPrompt from "react-ios-pwa-prompt";
+
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import MessageArea from "./components/MessageArea";
@@ -97,6 +99,7 @@ class App extends Component {
           )}
         </div>
         <MessageArea messages={messages} />
+        <PWAPrompt />
       </div>
     );
   }

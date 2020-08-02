@@ -105,8 +105,7 @@ export default class Gantt extends Component {
         editor: utils.startDateEditor,
       },
       {
-        name: "add",
-        // label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35, type: 'project'})"></div>`,
+        name: "add_buttons",
         label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35})"></div>`,
         align: "center",
         width: 40,
@@ -124,6 +123,7 @@ export default class Gantt extends Component {
       {
         name: "amount",
         height: 30,
+        default_value: "0",
         map_to: "amount",
         type: "textarea",
       },
