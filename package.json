@@ -1,6 +1,6 @@
 {
   "name": "hiifx_management",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "private": true,
   "homepage": "https://psheon.github.io/hiifx_management",
   "dependencies": {
