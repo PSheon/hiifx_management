@@ -81,7 +81,7 @@ export default class Gantt extends Component {
       {
         name: "holder",
         label: "投資人",
-        min_width: 128,
+        min_width: 160,
         max_width: 200,
         tree: true,
         resize: true,
