@@ -7,7 +7,7 @@ const MessageArea = ({ messages }) => {
 
   return (
     <div className="message-area">
-      <h3>操作紀錄：</h3>
+      <h3>操作紀錄</h3>
       <ul>{renderMessageArea}</ul>
     </div>
   );

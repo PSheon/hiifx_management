@@ -1,0 +1,31 @@
+.currency-price-area {
+  background: #f7fafc;
+  color: #38b2ac;
+  flex: 3;
+  height: 300px;
+  overflow: auto;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.currency-price-area h3 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.currency-price-area .content-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.currency-price-area .content-wrapper .exchange-section,
+.currency-price-area .content-wrapper .chart-section {
+  flex: 1;
+}
+
+@media screen and (max-width: 800px) and (orientation: landscape),
+  screen and (max-height: 500px) {
+  .currency-price-area {
+    display: none;
+  }
+}

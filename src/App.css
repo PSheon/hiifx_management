@@ -18,6 +18,11 @@
   transition: background-color 0.3s, opacity 0.3s;
 }
 
+.tool-section {
+  display: flex;
+  flex-direction: row;
+}
+
 @media screen and (max-width: 460px) {
   #rotate-hint {
     z-index: 1;

@@ -12,25 +12,36 @@ import {
 } from "react-feather";
 import fileDownloader from "js-file-download";
 
+import useScreenOrientation from "../../hooks/useScreenOrientation";
 import * as CONSTANT from "../../utils/constant";
 import * as utils from "../../utils";
+import * as API from "../../utils/currencies";
 
 const Toolbar = ({ handleImportData }) => {
+  const screenOrientation = useScreenOrientation();
   const [isFullGrid, setIsFullGrid] = useState(true);
 
+  const foldMenu = () => {
+    gantt.getGridColumn("wbs").hide = true;
+    gantt.getGridColumn("start_date").hide = true;
+    gantt.getGridColumn("amount").hide = true;
+
+    gantt.config.grid_width = 150;
+  };
+  const unFoldMenu = () => {
+    gantt.getGridColumn("wbs").hide = false;
+    gantt.getGridColumn("start_date").hide = false;
+    gantt.getGridColumn("amount").hide = false;
+
+    gantt.config.grid_width = 500;
+  };
   const handleToggleGrid = () => {
     setIsFullGrid(!isFullGrid);
 
     if (isFullGrid) {
-      gantt.getGridColumn("wbs").hide = true;
-      gantt.getGridColumn("start_date").hide = true;
-
-      gantt.config.grid_width = 150;
+      foldMenu();
     } else {
-      gantt.getGridColumn("wbs").hide = false;
-      gantt.getGridColumn("start_date").hide = false;
-
-      gantt.config.grid_width = 300;
+      unFoldMenu();
     }
     gantt.render();
   };
@@ -135,8 +146,32 @@ const Toolbar = ({ handleImportData }) => {
     gantt.importFromJSON = importFromJSON;
   }, [handleImportData]);
 
+  const handleClick = async () => {
+    const result = await API.getUSDHistoryPrice();
+
+    console.log("result, ", result);
+  };
+
+  useEffect(() => {
+    gantt.attachEvent("onGanttReady", function () {
+      if (
+        screenOrientation !== "portrait-primary" &&
+        window.innerWidth <= 800
+      ) {
+        setIsFullGrid(false);
+        foldMenu();
+      } else {
+        setIsFullGrid(true);
+        unFoldMenu();
+      }
+      gantt.render();
+    });
+
+    // eslint-disable-next-line
+  }, []);
+
   return (
-    <div className="tool-bar">
+    <div className="tool-bar" onClick={handleClick}>
       <div className="logo-wrapper noselect" onClick={handleToggleGrid}>
         {isFullGrid ? <Menu /> : <ChevronRight />}
         <b className="short-LOGO">海匯</b>

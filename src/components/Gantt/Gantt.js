@@ -7,6 +7,7 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_overlay.js";
 import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "./dhtmlxgantt_material.css";
 
@@ -62,18 +63,23 @@ export default class Gantt extends Component {
       title: utils.dateToStr(new Date()),
     });
 
+    gantt.config.autofit = true;
+    gantt.config.grid_width = 500;
+    gantt.config.open_tree_initially = true;
     gantt.config.keyboard_navigation_cells = true;
     gantt.config.multiselect = true;
     gantt.config.quickinfo_buttons = ["icon_edit", "icon_delete"];
     gantt.config.reorder_grid_columns = true;
     gantt.config.order_branch = true;
-    gantt.config.keep_grid_width = true;
+    // gantt.config.keep_grid_width = true;
     gantt.config.xml_date = "%Y-%m-%d %H:%i";
     gantt.config.columns = [
       {
         name: "wbs",
         label: "編號",
         align: "center",
+        width: "*",
+        min_width: 40,
         max_width: 64,
         resize: true,
         template: gantt.getWBSCode,
@@ -81,8 +87,9 @@ export default class Gantt extends Component {
       {
         name: "holder",
         label: "投資人",
+        width: "*",
         min_width: 160,
-        max_width: 200,
+        max_width: 220,
         tree: true,
         resize: true,
         editor: utils.holderEditor,
@@ -91,6 +98,7 @@ export default class Gantt extends Component {
         name: "amount",
         label: "投資額",
         align: "center",
+        width: "*",
         min_width: 64,
         max_width: 80,
         resize: true,
@@ -100,14 +108,15 @@ export default class Gantt extends Component {
         name: "start_date",
         label: "初始託管日",
         align: "center",
-        min_width: 80,
-        max_width: 96,
+        width: "*",
+        min_width: 96,
+        max_width: 128,
         resize: true,
         editor: utils.startDateEditor,
       },
       {
         name: "add_buttons",
-        label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35})"><i class="fa fa-plus"></i></div>`,
+        label: `<div class="gantt_grid_head_cell gantt_grid_head_add" onclick="gantt.createTask({duration: 35, parent: '0'})"><i class="fa fa-plus"></i></div>`,
         align: "center",
         max_width: 40,
         template: (task) =>
@@ -136,7 +145,11 @@ export default class Gantt extends Component {
         template: (start, end, ev) =>
           ev.id === 0 ? "無推薦經紀人" : ev.holder,
       },
-      { name: "time", map_to: "auto", type: "duration" },
+      {
+        name: "time",
+        map_to: "auto",
+        type: "duration",
+      },
       {
         name: "profit",
         map_to: { start_date: "profit_date" },
@@ -283,7 +296,7 @@ export default class Gantt extends Component {
         render: function draw_profit(task) {
           if (task.profit_date) {
             var el = document.createElement("div");
-            el.className = "profit";
+            el.className = "profit profit-marker";
             var sizes = gantt.getTaskPosition(task, task.profit_date);
 
             el.style.left = sizes.left + "px";
