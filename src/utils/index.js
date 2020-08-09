@@ -1,5 +1,8 @@
 import { gantt } from "dhtmlx-gantt";
 
+export * from "./currencies";
+export * from "./constant";
+
 const isLevelIB = (data) => {
   const { amount, directMember, directMemberAmount, teamAmount } = data;
   return (

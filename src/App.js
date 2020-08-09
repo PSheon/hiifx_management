@@ -4,6 +4,7 @@ import PWAPrompt from "react-ios-pwa-prompt";
 
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
+import CurrencyPriceArea from "./components/CurrencyPriceArea";
 import MessageArea from "./components/MessageArea";
 import * as CONSTANT from "./utils/constant";
 import * as utils from "./utils";
@@ -98,7 +99,10 @@ class App extends Component {
             />
           )}
         </div>
-        <MessageArea messages={messages} />
+        <div className="tool-section">
+          <CurrencyPriceArea />
+          <MessageArea messages={messages} />
+        </div>
         <PWAPrompt />
       </div>
     );

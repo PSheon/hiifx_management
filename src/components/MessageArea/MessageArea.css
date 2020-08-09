@@ -1,10 +1,16 @@
 .message-area {
   background: #f7fafc;
   color: #38b2ac;
-  height: 150px;
+  flex: 2;
+  height: 300px;
   overflow: auto;
   padding: 10px;
   box-sizing: border-box;
+}
+
+.message-area h3 {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .message-area ul {
