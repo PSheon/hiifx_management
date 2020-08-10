@@ -15,7 +15,6 @@ import fileDownloader from "js-file-download";
 import useScreenOrientation from "../../hooks/useScreenOrientation";
 import * as CONSTANT from "../../utils/constant";
 import * as utils from "../../utils";
-import * as API from "../../utils/currencies";
 
 const Toolbar = ({ handleImportData }) => {
   const screenOrientation = useScreenOrientation();
@@ -146,12 +145,6 @@ const Toolbar = ({ handleImportData }) => {
     gantt.importFromJSON = importFromJSON;
   }, [handleImportData]);
 
-  const handleClick = async () => {
-    const result = await API.getUSDHistoryPrice();
-
-    console.log("result, ", result);
-  };
-
   useEffect(() => {
     gantt.attachEvent("onGanttReady", function () {
       if (
@@ -171,7 +164,7 @@ const Toolbar = ({ handleImportData }) => {
   }, []);
 
   return (
-    <div className="tool-bar" onClick={handleClick}>
+    <div className="tool-bar">
       <div className="logo-wrapper noselect" onClick={handleToggleGrid}>
         {isFullGrid ? <Menu /> : <ChevronRight />}
         <b className="short-LOGO">海匯</b>

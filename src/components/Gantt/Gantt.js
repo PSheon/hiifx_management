@@ -7,7 +7,6 @@ import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation.js";
 import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_overlay.js";
 import "dhtmlx-gantt/codebase/locale/locale_cn.js";
 import "./dhtmlxgantt_material.css";
 

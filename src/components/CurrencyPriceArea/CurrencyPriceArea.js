@@ -1,9 +1,13 @@
 import React, { useState, useEffect } from "react";
+import clsx from "clsx";
 import Chart from "react-apexcharts";
 
+import Converter from "./converter";
 import * as UTILS from "../../utils";
 
-const CurrencyPriceArea = () => {
+const CurrencyPriceArea = ({ mode }) => {
+  const [lastDate, setLastDate] = useState("");
+  const [lastSellPrice, setLastSellPrice] = useState(0);
   const [dateHistory, setDateHistory] = useState([]);
   const [buyPriceHistory, setBuyPriceHistory] = useState([]);
   const [sellPriceHistory, setSellPriceHistory] = useState([]);
@@ -12,9 +16,19 @@ const CurrencyPriceArea = () => {
     const init = async () => {
       const USD_HISTORY = await UTILS.getUSDHistoryPrice();
 
-      setDateHistory(USD_HISTORY.map((item) => item.date).reverse());
-      setBuyPriceHistory(USD_HISTORY.map((item) => item.buyPrice));
-      setSellPriceHistory(USD_HISTORY.map((item) => item.sellPrice));
+      const {
+        lastDate,
+        lastSellPrice,
+        dateHistory,
+        buyPriceHistory,
+        sellPriceHistory,
+      } = UTILS.priceHistoryFormatter(USD_HISTORY);
+
+      setLastDate(lastDate);
+      setLastSellPrice(lastSellPrice);
+      setDateHistory(dateHistory);
+      setBuyPriceHistory(buyPriceHistory);
+      setSellPriceHistory(sellPriceHistory);
     };
 
     init();
@@ -22,28 +36,31 @@ const CurrencyPriceArea = () => {
   }, []);
 
   return (
-    <div className="currency-price-area">
+    <div
+      className={clsx(
+        mode === "converter" && "showConverter",
+        "currency-price-area"
+      )}
+    >
       <h3>即時匯率 - 臺灣銀行</h3>
 
       <div className="content-wrapper">
-        <div className="exchange-section">匯率換算</div>
+        <Converter lastDate={lastDate} lastSellPrice={lastSellPrice} />
+
         <div className="chart-section">
           <Chart
             options={{
-              chart: {
-                id: "basic-bar",
-              },
               xaxis: {
                 categories: dateHistory,
               },
             }}
             series={[
               {
-                name: "買入價格",
+                name: "臺灣銀行買入價格",
                 data: buyPriceHistory,
               },
               {
-                name: "賣出價格",
+                name: "臺灣銀行賣出價格",
                 data: sellPriceHistory,
               },
             ]}

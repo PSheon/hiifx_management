@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import clsx from "clsx";
 import { gantt } from "dhtmlx-gantt";
 import PWAPrompt from "react-ios-pwa-prompt";
 
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import CurrencyPriceArea from "./components/CurrencyPriceArea";
-import MessageArea from "./components/MessageArea";
+// import MessageArea from "./components/MessageArea";
 import * as CONSTANT from "./utils/constant";
 import * as utils from "./utils";
 import "./App.css";
@@ -16,6 +17,7 @@ class App extends Component {
     isUpdating: false,
     tasks: null,
     currentZoom: "月",
+    currentMode: "chart", // chart, converter
     messages: [],
   };
 
@@ -68,6 +70,14 @@ class App extends Component {
     gantt.modalbox.hide(window.importBox);
   };
 
+  handleToggleMode = () => {
+    if (this.state.currentMode === "chart") {
+      this.setState({ currentMode: "converter" });
+    } else {
+      this.setState({ currentMode: "chart" });
+    }
+  };
+
   componentDidMount() {
     const LOCAL_DATA = localStorage.getItem("hiifx_data");
     if (!!LOCAL_DATA) {
@@ -79,7 +89,8 @@ class App extends Component {
   }
 
   render() {
-    const { isReady, tasks, currentZoom, messages } = this.state;
+    // const { isReady, tasks, currentZoom, messages, currentMode } = this.state;
+    const { isReady, tasks, currentZoom, currentMode } = this.state;
 
     return (
       <div>
@@ -90,7 +101,12 @@ class App extends Component {
           <div id="rotate-icon-wrapper" />
           <div id="rotate-hint-wrapper">請翻轉手機</div>
         </div>
-        <div className="gantt-container">
+        <div
+          className={clsx(
+            currentMode === "converter" && "showConverter",
+            "gantt-container"
+          )}
+        >
           {isReady && (
             <GanttChart
               tasks={tasks}
@@ -98,10 +114,22 @@ class App extends Component {
               onDataUpdated={this.logDataUpdate}
             />
           )}
+          <i
+            className={clsx(
+              currentMode === "chart" ? "fa-area-chart" : "fa-home",
+              "fa gantt-converter"
+            )}
+            onClick={this.handleToggleMode}
+          />
         </div>
-        <div className="tool-section">
-          <CurrencyPriceArea />
-          <MessageArea messages={messages} />
+        <div
+          className={clsx(
+            currentMode === "converter" && "showConverter",
+            "tool-section"
+          )}
+        >
+          <CurrencyPriceArea mode={currentMode} />
+          {/* <MessageArea messages={messages} /> */}
         </div>
         <PWAPrompt />
       </div>

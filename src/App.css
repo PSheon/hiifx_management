@@ -6,6 +6,24 @@
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }
+::-webkit-input-placeholder {
+  text-align: center;
+  color: #38b2ac;
+}
+:-moz-placeholder {
+  /* Firefox 18- */
+  text-align: center;
+  color: #38b2ac;
+}
+::-moz-placeholder {
+  /* Firefox 19+ */
+  text-align: center;
+  color: #38b2ac;
+}
+:-ms-input-placeholder {
+  text-align: center;
+  color: #38b2ac;
+}
 
 #rotate-hint {
   z-index: -1;
@@ -21,6 +39,24 @@
 .tool-section {
   display: flex;
   flex-direction: row;
+}
+
+.gantt-converter {
+  display: none;
+  z-index: 3;
+  color: #38b2ac;
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  width: 30px;
+  height: 30px;
+  padding: 2px;
+  font-size: 32px;
+  background: transparent;
+  cursor: pointer;
+  opacity: 0.5;
+  text-align: center;
+  transition: background-color 0.3s, opacity 0.3s;
 }
 
 @media screen and (max-width: 460px) {
@@ -52,5 +88,11 @@
     color: #38b2ac;
     font-size: 2.5rem;
     font-weight: bold;
+  }
+}
+@media screen and (max-width: 800px) and (orientation: landscape),
+  screen and (max-height: 500px) {
+  .gantt-converter {
+    display: block;
   }
 }

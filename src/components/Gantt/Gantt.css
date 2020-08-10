@@ -237,4 +237,7 @@
   .gantt-container {
     height: calc(100vh - 50px);
   }
+  .gantt-container.showConverter {
+    height: 0;
+  }
 }

@@ -10,6 +10,7 @@
     "apexcharts": "^3.20.0",
     "axios": "^0.19.2",
     "cheerio": "^1.0.0-rc.3",
+    "clsx": "^1.1.1",
     "dhtmlx-gantt": "^6.3.6",
     "js-file-download": "^0.4.12",
     "react": "^16.12.0",
@@ -19,7 +20,8 @@
     "react-dom": "^16.12.0",
     "react-feather": "^2.0.8",
     "react-ios-pwa-prompt": "^1.8.0",
-    "react-scripts": "3.4.0"
+    "react-scripts": "3.4.0",
+    "react-world-flags": "^1.4.0"
   },
   "scripts": {
     "dev": "react-app-rewired start",
