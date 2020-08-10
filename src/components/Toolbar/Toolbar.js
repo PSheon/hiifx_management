@@ -53,6 +53,10 @@ const Toolbar = ({ handleImportData }) => {
     localStorage.setItem("hiifx_data", JSON.stringify(CONSTANT.INIT_DATA));
     window.location.reload();
   };
+  const restorePriceHistory = () => {
+    localStorage.removeItem("hiifx_history_price");
+    window.location.reload();
+  };
 
   const exportAndDownload = () => {
     const result = gantt.serialize();
@@ -88,9 +92,17 @@ const Toolbar = ({ handleImportData }) => {
           css: "data_export_restore",
           value: "restore",
         },
+        {
+          label: "重設匯率",
+          css: "price_history_restore",
+          value: "price_restore",
+        },
         { label: "取消", css: "data_cancel_btn", value: "cancel" },
       ],
       callback: function (action) {
+        if (action === "price_restore") {
+          restorePriceHistory();
+        }
         if (action === "restore") {
           restoreData();
         }
