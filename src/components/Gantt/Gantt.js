@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { gantt } from "dhtmlx-gantt";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation.js";
-import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect.js";
-import "dhtmlx-gantt/codebase/locale/locale_cn.js";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_fullscreen";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_marker";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_quick_info";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_undo";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_keyboard_navigation";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_multiselect";
+import "dhtmlx-gantt/codebase/ext/dhtmlxgantt_tooltip";
+import "dhtmlx-gantt/codebase/locale/locale_cn";
 import "./dhtmlxgantt_material.css";
 
 import * as utils from "../../utils";
@@ -185,6 +185,14 @@ export default class Gantt extends Component {
         });
         return false;
       }
+      if (!item.parent) {
+        gantt.message({
+          type: "error",
+          text: "請輸入推薦人",
+        });
+        return false;
+      }
+
       item.progress = 0.5;
       item.directMember = 0;
       item.directMemberAmount = 0;
@@ -200,6 +208,23 @@ export default class Gantt extends Component {
         });
         return false;
       }
+    });
+
+    gantt.attachEvent("onGanttReady", () => {
+      const tooltips = gantt.ext.tooltips;
+
+      gantt.templates.tooltip_text = () => null;
+      tooltips.tooltipFor({
+        selector: ".profit.profit-marker",
+        html: function (event, node) {
+          const taskId = node.getAttribute("data-taskId");
+          const detail = gantt.getTask(taskId);
+
+          return `獲利日期 ${gantt.templates.tooltip_date_format(
+            detail["profit_date"]
+          )} </br>`;
+        },
+      });
     });
 
     gantt.templates.task_class = function (start, end, task) {
@@ -294,17 +319,14 @@ export default class Gantt extends Component {
       renderer: {
         render: function draw_profit(task) {
           if (task.profit_date) {
-            var el = document.createElement("div");
+            const el = document.createElement("div");
             el.className = "profit profit-marker";
-            var sizes = gantt.getTaskPosition(task, task.profit_date);
+            const sizes = gantt.getTaskPosition(task, task.profit_date);
 
             el.style.left = sizes.left + "px";
             el.style.top = sizes.top + "px";
 
-            el.setAttribute(
-              "title",
-              gantt.templates.task_date(task.profit_date)
-            );
+            el.setAttribute("data-taskId", task.id);
             return el;
           }
           return false;

@@ -116,7 +116,7 @@ class App extends Component {
           )}
           <i
             className={clsx(
-              currentMode === "chart" ? "fa-area-chart" : "fa-home",
+              currentMode === "chart" ? "fa-university" : "fa-home",
               "fa gantt-converter"
             )}
             onClick={this.handleToggleMode}
