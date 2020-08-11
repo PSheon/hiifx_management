@@ -1,7 +1,7 @@
 .currency-price-area {
   background: #f7fafc;
   color: #38b2ac;
-  flex: 5;
+  flex: 10;
   height: 300px;
   overflow: auto;
   padding: 10px;
@@ -20,13 +20,40 @@
   align-items: center;
 }
 .currency-price-area .content-wrapper .converter-section {
-  flex: 5;
+  flex: 1;
+  align-self: baseline;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 .currency-price-area .content-wrapper .chart-section {
-  flex: 7;
+  flex: 1;
+}
+
+.quick-amount-section {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1rem;
+}
+.quick-amount-pill {
+  color: #fff;
+  margin: 0 0.25rem;
+  padding: 0.5rem 1rem;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+  font-weight: 700;
+  border-radius: 9999px;
+  background-color: #38b2ac;
+  border: 0.1rem solid #38b2ac;
+  transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+.quick-amount-pill:focus {
+  outline: none;
+}
+.quick-amount-pill.disabled {
+  color: rgb(56, 178, 172, 0.8);
+  background-color: transparent;
+  box-shadow: none;
 }
 
 .converter-wrapper {
@@ -77,6 +104,10 @@
   appearance: none;
   overflow: visible;
   border: 0 solid #e2e8f0;
+  transition: outline 0.3s;
+}
+.amount-input:focus {
+  outline: rgb(56, 178, 172, 0.65) auto 1px;
 }
 .flag-button {
   flex: 1;
@@ -94,6 +125,12 @@ span.converted-result {
 
 @media screen and (max-width: 800px) and (orientation: landscape),
   screen and (max-height: 500px) {
+  .quick-amount-section {
+    display: flex;
+  }
+  .currency-price-area .content-wrapper {
+    padding: 1rem 0;
+  }
   .currency-price-area {
     display: none;
   }

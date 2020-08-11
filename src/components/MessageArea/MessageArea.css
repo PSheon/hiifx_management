@@ -2,6 +2,7 @@
   background: #f7fafc;
   color: #38b2ac;
   flex: 2;
+  flex-basis: 200px;
   height: 300px;
   overflow: auto;
   padding: 10px;
@@ -10,7 +11,7 @@
 
 .message-area h3 {
   margin-top: 0;
-  margin-bottom: 0;
+  margin-bottom: 0.5rem;
 }
 
 .message-area ul {
@@ -25,7 +26,7 @@
 }
 
 @media screen and (max-width: 800px) and (orientation: landscape),
-  screen and (max-height: 500px) {
+  screen and (max-width: 1200px) {
   .message-area {
     display: none;
   }

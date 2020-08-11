@@ -6,7 +6,7 @@ import PWAPrompt from "react-ios-pwa-prompt";
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
 import CurrencyPriceArea from "./components/CurrencyPriceArea";
-// import MessageArea from "./components/MessageArea";
+import MessageArea from "./components/MessageArea";
 import * as CONSTANT from "./utils/constant";
 import * as utils from "./utils";
 import "./App.css";
@@ -89,8 +89,7 @@ class App extends Component {
   }
 
   render() {
-    // const { isReady, tasks, currentZoom, messages, currentMode } = this.state;
-    const { isReady, tasks, currentZoom, currentMode } = this.state;
+    const { isReady, tasks, currentZoom, messages, currentMode } = this.state;
 
     return (
       <div>
@@ -129,7 +128,7 @@ class App extends Component {
           )}
         >
           <CurrencyPriceArea mode={currentMode} />
-          {/* <MessageArea messages={messages} /> */}
+          <MessageArea messages={messages} />
         </div>
         <PWAPrompt />
       </div>

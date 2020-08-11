@@ -42,11 +42,9 @@ const CurrencyPriceArea = ({ mode }) => {
         "currency-price-area"
       )}
     >
-      <h3>即時匯率 - 臺灣銀行</h3>
+      <h3>臺灣銀行 - 每日匯率</h3>
 
       <div className="content-wrapper">
-        <Converter lastDate={lastDate} lastSellPrice={lastSellPrice} />
-
         <div className="chart-section">
           <Chart
             options={{
@@ -69,6 +67,8 @@ const CurrencyPriceArea = ({ mode }) => {
             height={250}
           />
         </div>
+
+        <Converter lastDate={lastDate} lastSellPrice={lastSellPrice} />
       </div>
     </div>
   );

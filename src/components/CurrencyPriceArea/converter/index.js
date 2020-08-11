@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import clsx from "clsx";
 import Flag from "react-world-flags";
 
 const Converter = ({ lastDate, lastSellPrice }) => {
@@ -20,9 +21,11 @@ const Converter = ({ lastDate, lastSellPrice }) => {
 
   const renderResult = () => {
     if (exchangeBase === "USD") {
-      return `${Math.round(amount * lastSellPrice * 100) / 100} TWD`;
+      const originResult = Math.round(amount * lastSellPrice * 1000) / 1000;
+      return `${new Intl.NumberFormat("en-IN").format(originResult)} TWD`;
     } else {
-      return `${Math.round((amount / lastSellPrice) * 100) / 100} USD`;
+      const originResult = Math.round((amount / lastSellPrice) * 1000) / 1000;
+      return `${new Intl.NumberFormat("en-IN").format(originResult)} USD`;
     }
   };
 
@@ -38,6 +41,8 @@ const Converter = ({ lastDate, lastSellPrice }) => {
         <p>
           <a
             href="https://rate.bot.com.tw/xrt/quote/l6m/USD-TWD"
+            target="_blank"
+            rel="noreferrer noopener"
             className="bank-link"
           >
             臺灣銀行
@@ -51,6 +56,20 @@ const Converter = ({ lastDate, lastSellPrice }) => {
         ) : (
           <p>匯率載入中</p>
         )}
+      </div>
+      <div className="quick-amount-section">
+        {[1500, 3000, 4500, 10000].map((itemAmount) => (
+          <button
+            key={itemAmount}
+            className={clsx(
+              itemAmount === amount && "disabled",
+              "quick-amount-pill"
+            )}
+            onClick={() => setAmount(itemAmount)}
+          >
+            {new Intl.NumberFormat("en-IN").format(itemAmount)}
+          </button>
+        ))}
       </div>
       <div className="amount-wrapper">
         <input
@@ -69,7 +88,8 @@ const Converter = ({ lastDate, lastSellPrice }) => {
 
       <div className="friendly-info-section">
         <p className="convert-hint">
-          {amount} {exchangeBase} <b>=</b>
+          {new Intl.NumberFormat("en-IN").format(amount)} {exchangeBase}{" "}
+          <b>=</b>
         </p>
         <span className="converted-result">{renderResult()}</span>
       </div>
