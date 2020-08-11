@@ -1,24 +1,24 @@
 {
   "files": {
-    "main.css": "/hiifx_management/static/css/main.a1a75871.chunk.css",
-    "main.js": "/hiifx_management/static/js/main.c683d601.chunk.js",
-    "main.js.map": "/hiifx_management/static/js/main.c683d601.chunk.js.map",
+    "main.css": "/hiifx_management/static/css/main.b702985f.chunk.css",
+    "main.js": "/hiifx_management/static/js/main.1776667c.chunk.js",
+    "main.js.map": "/hiifx_management/static/js/main.1776667c.chunk.js.map",
     "runtime-main.js": "/hiifx_management/static/js/runtime-main.57b51508.js",
     "runtime-main.js.map": "/hiifx_management/static/js/runtime-main.57b51508.js.map",
-    "static/js/2.bbfce1e0.chunk.js": "/hiifx_management/static/js/2.bbfce1e0.chunk.js",
-    "static/js/2.bbfce1e0.chunk.js.map": "/hiifx_management/static/js/2.bbfce1e0.chunk.js.map",
+    "static/js/2.2b0ee107.chunk.js": "/hiifx_management/static/js/2.2b0ee107.chunk.js",
+    "static/js/2.2b0ee107.chunk.js.map": "/hiifx_management/static/js/2.2b0ee107.chunk.js.map",
     "hiifx-sw.js": "/hiifx_management/hiifx-sw.js",
     "index.html": "/hiifx_management/index.html",
-    "precache-manifest.139c46f2f4148e6585242cc55d2b43b4.js": "/hiifx_management/precache-manifest.139c46f2f4148e6585242cc55d2b43b4.js",
-    "precache-manifest.239818241d0db161246b778a25906ad8.js": "/hiifx_management/precache-manifest.239818241d0db161246b778a25906ad8.js",
+    "precache-manifest.528bc02f2f01739bde0f1e199cefedff.js": "/hiifx_management/precache-manifest.528bc02f2f01739bde0f1e199cefedff.js",
+    "precache-manifest.fee2555e7461f53f40f5f00baf1db860.js": "/hiifx_management/precache-manifest.fee2555e7461f53f40f5f00baf1db860.js",
     "service-worker.js": "/hiifx_management/service-worker.js",
-    "static/css/main.a1a75871.chunk.css.map": "/hiifx_management/static/css/main.a1a75871.chunk.css.map",
-    "static/js/2.bbfce1e0.chunk.js.LICENSE.txt": "/hiifx_management/static/js/2.bbfce1e0.chunk.js.LICENSE.txt"
+    "static/css/main.b702985f.chunk.css.map": "/hiifx_management/static/css/main.b702985f.chunk.css.map",
+    "static/js/2.2b0ee107.chunk.js.LICENSE.txt": "/hiifx_management/static/js/2.2b0ee107.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
     "static/js/runtime-main.57b51508.js",
-    "static/js/2.bbfce1e0.chunk.js",
-    "static/css/main.a1a75871.chunk.css",
-    "static/js/main.c683d601.chunk.js"
+    "static/js/2.2b0ee107.chunk.js",
+    "static/css/main.b702985f.chunk.css",
+    "static/js/main.1776667c.chunk.js"
   ]
 }

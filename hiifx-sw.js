@@ -1,4 +1,4 @@
-importScripts("/hiifx_management/precache-manifest.239818241d0db161246b778a25906ad8.js", "/hiifx_management/workbox-v4.3.1/workbox-sw.js");
+importScripts("/hiifx_management/precache-manifest.528bc02f2f01739bde0f1e199cefedff.js", "/hiifx_management/workbox-v4.3.1/workbox-sw.js");
 workbox.setConfig({modulePathPrefix: "/hiifx_management/workbox-v4.3.1"});
 /* eslint-disable no-undef */
 // See https://developers.google.com/web/tools/workbox/guides/configure-workbox
