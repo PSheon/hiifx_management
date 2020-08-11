@@ -38,7 +38,7 @@ const Converter = ({ lastDate, lastSellPrice }) => {
   return (
     <div className="converter-section">
       <div className="info-section">
-        <p>
+        <p className="title">
           <a
             href="https://rate.bot.com.tw/xrt/quote/l6m/USD-TWD"
             target="_blank"
