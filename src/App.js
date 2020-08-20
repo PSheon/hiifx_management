@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import clsx from "clsx";
 import { gantt } from "dhtmlx-gantt";
-import PWAPrompt from "react-ios-pwa-prompt";
 
 import GanttChart from "./components/Gantt";
 import Toolbar from "./components/Toolbar";
@@ -130,7 +129,6 @@ class App extends Component {
           <CurrencyPriceArea mode={currentMode} />
           <MessageArea messages={messages} />
         </div>
-        <PWAPrompt />
       </div>
     );
   }

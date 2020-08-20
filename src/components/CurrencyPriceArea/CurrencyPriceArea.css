@@ -56,13 +56,6 @@
   box-shadow: none;
 }
 
-.converter-wrapper {
-  height: 250px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-}
 .info-section p {
   text-align: center;
 }
